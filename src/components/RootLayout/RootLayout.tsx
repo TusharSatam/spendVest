@@ -18,7 +18,7 @@ export default function RootLayout({
 
   const pathname = usePathname();
   const router = useRouter();
-  const unProtectedRoutes = ["/login", "/signup"];
+  const unProtectedRoutes = ["/login", "/signup","/getStarted"];
 
   useEffect(() => {
     let timeoutId: NodeJS.Timeout;
@@ -52,7 +52,7 @@ export default function RootLayout({
         }
       } else {
         if (!isAuth) {
-          router.push("/login");
+          router.push("/getStarted");
         } else {
           setLoading(false);
         }
