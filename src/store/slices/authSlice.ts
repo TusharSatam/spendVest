@@ -13,7 +13,7 @@ const initialState: AuthState = {
   id: "",
   name: "",
   email: "",
-  isAuthenticated: false,
+  isAuthenticated: true,
 };
 
 export const auth = createSlice({
