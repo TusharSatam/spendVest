@@ -4,6 +4,7 @@ import { RootState } from "@/store/store";
 import React, { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { usePathname, useRouter } from "next/navigation";
+import Navbar from "../Navbar/Navbar";
 
 export default function RootLayout({
   children,
@@ -77,6 +78,7 @@ export default function RootLayout({
       ) : (
         children
       )}
+      {isAuth&&<Navbar/>}
     </>
   );
 }
