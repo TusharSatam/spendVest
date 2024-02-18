@@ -5,7 +5,7 @@ import {
 } from "@/components/ui/resizable";
 import { Separator } from "@/components/ui/separator"
 
-export function HomeHero() {
+export default function HomeHero() {
   return (
     <section className="flex w-full justify-center items-center p-3">
       <ResizablePanelGroup
