@@ -4,6 +4,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
+import {  useRouter } from "next/navigation";
+
 import {
   Form,
   FormControl,
@@ -16,6 +18,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { LOGO } from "@/assets/images";
 import Image from "next/image";
+import Router from "next/router";
 
 const formSchema = z
   .object({
@@ -31,6 +34,8 @@ const formSchema = z
   });
 
 const Signup = () => {
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -46,10 +51,10 @@ const Signup = () => {
     console.log(values);
   }
   return (
-    <div className="flex flex-col justify-center items-center h-screen w-screen bg-black">
-      {/* <div className="h-[20vh] ">
+    <div className="flex gap-[16px] flex-col justify-center items-center h-screen w-screen bg-black">
+      <div className="h-[20vh] ">
         <Image src={LOGO} alt="BG_LOGO"  className="h-full w-full"/>
-      </div> */}
+      </div>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -111,6 +116,9 @@ const Signup = () => {
           <Button type="submit">Submit</Button>
         </form>
       </Form>
+      <div className="">
+      Already an user? <span className="underline cursor-pointer" onClick={()=>router.push('/login')}>Login</span>
+      </div>
     </div>
   );
 };
