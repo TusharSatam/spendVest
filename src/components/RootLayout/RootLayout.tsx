@@ -19,7 +19,7 @@ export default function RootLayout({
 
   const pathname = usePathname();
   const router = useRouter();
-  const unProtectedRoutes = ["/login", "/signup","/getStarted"];
+  const unProtectedRoutes = ["/login", "/signup","/getStarted","/forgot-password","/create-password"];
 
   useEffect(() => {
     let timeoutId: NodeJS.Timeout;
@@ -66,7 +66,7 @@ export default function RootLayout({
   }, [authVerifier]);
 
   return (
-    <>
+    <div className="h-screen">
       {loading ? (
         "Loading..."
       ) : isDesktop ? (
@@ -79,6 +79,6 @@ export default function RootLayout({
         children
       )}
       {isAuth&&<Navbar/>}
-    </>
+    </div>
   );
 }
