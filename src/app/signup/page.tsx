@@ -19,6 +19,8 @@ import { Input } from "@/components/ui/input";
 import { LOGO } from "@/assets/images";
 import Image from "next/image";
 import Router from "next/router";
+import { useDispatch } from "react-redux";
+import { login } from "@/store/slices/authSlice";
 
 const formSchema = z
   .object({
@@ -34,6 +36,7 @@ const formSchema = z
   });
 
 const Signup = () => {
+  const dispatch=useDispatch()
   const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -48,7 +51,19 @@ const Signup = () => {
   function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
+    const userData = {
+      jwt: "your_jwt_token",
+      id: "user_id",
+      name: "user_name",
+      email: values?.email,
+      isAuthenticated: true,
+      isOnboarding:true,
+    };
     console.log(values);
+    console.log(userData);
+    
+    dispatch(login(userData))
+    router.push('/on-boarding')
   }
   return (
     <div className="flex gap-[16px] flex-col justify-center items-center h-screen w-screen bg-black">
