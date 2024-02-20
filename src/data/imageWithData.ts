@@ -90,7 +90,7 @@ export const sampleTextArrForCarousel: carouselImageOrBtn[] = [
 ];
 
 export const sampleTrendingLifestyleData: carouselImageOrBtn[] = [
-  { text: "Travel to Bali", img:travelBali },
+  { text: "Travel to Bali", img:travelBali, route:"travel/bali" },
   { text: "Own Your Jordan",img:ownJordan },
   { text: "Pick Furniture",img:buyFurniture },
 ];
