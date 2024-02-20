@@ -48,7 +48,7 @@ const SelectionsCarousel: React.FC<SelectionsCarouselProps> = ({
                   </p>
                 </Button>
               ) : obj.img ? (
-                <div onClick={() => onClick(obj)} className="relative w-[70vw] h-40 bg-white rounded-lg overflow-hidden">
+                <div onClick={() => onClick(obj)} className={`relative w-[70vw] h-40 bg-white rounded-lg overflow-hidden ${obj.selected?"saturate-50 brightness-75":""}`}>
                   <Image
                     src={obj.img}
                     alt=""

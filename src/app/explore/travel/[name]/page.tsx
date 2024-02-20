@@ -31,7 +31,7 @@ const initialInvestmentFrequency: selectionsCarouselType[] = [
   },
 ];
 
-const initialBrands = [
+const initialBrands: selectionsCarouselType[] = [
   {
     img:makemytripLogoImage,    
     value: 1,
@@ -80,15 +80,25 @@ const Page: FC<pageProps> = ({ params }) => {
           className="mb-2"
           text="Duration (Refer APP)"
           onClick={(obj) => {
-            console.log({ obj });
+            setInvestmentFrequency((prev)=>{
+              const newArr = [...initialInvestmentFrequency];
+              const index = newArr.findIndex(item=>item.value===obj.value);
+              newArr[index] = {...obj,selected:true}
+              return newArr;
+            })
           }}
         />
         <SelectionsCarousel
           data={brands}
           className="mb-2"
-          text="Duration (Refer APP)"
+          text="Brands waiting for you"
           onClick={(obj) => {
-            console.log({ obj });
+            setBrands((prev)=>{
+              const newArr = [...initialBrands];
+              const index = newArr.findIndex(item=>item.value===obj.value);
+              newArr[index] = {...obj,selected:true}
+              return newArr;
+            })
           }}
         />
     </main>
