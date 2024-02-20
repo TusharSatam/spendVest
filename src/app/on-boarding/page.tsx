@@ -6,20 +6,23 @@ import { LOGO } from "@/assets/images";
 import Image from "next/image";
 import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import { login, updateOnboarding } from "@/store/slices/authSlice";
 
 interface FormData {
-  email: string;
   firstName: string;
+  middleName: string;
   lastName: string;
   phoneNumber: string;
 }
 
 const OnBoarding = () => {
+  const dispatch=useDispatch()
   const [Step, setStep] = useState<number>(1);
   const router = useRouter();
   const [formData, setFormData] = useState<FormData>({
-    email: "",
     firstName: "",
+    middleName: "",
     lastName: "",
     phoneNumber: "",
   });
@@ -29,25 +32,39 @@ const OnBoarding = () => {
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
+  let validationErrors: Record<string, string> = {};
+  const handleSkip = () => {
+    setStep((prev)=>prev+1)
+    setErrors({})
+  };
+
   const validateAndProceed = () => {
-    let validationErrors: Record<string, string> = {};
 
-    // Validate email
+    // Validate firstName ,middleName and lastName
     if (Step === 1) {
-      if (!formData.email || !/^\S+@\S+$/.test(formData.email)) {
-        validationErrors.email = "Please enter a valid email address";
-      }
-    }
-
-    // Validate firstName and lastName
-    if (Step === 2 ) {
-      if (!formData.firstName || !/^[A-Za-z]+$/.test(formData.firstName) || formData.firstName.length===0) {
+      if (
+        !formData.firstName ||
+        !/^[A-Za-z]+$/.test(formData.firstName) ||
+        formData.firstName.length === 0
+      ) {
         validationErrors.firstName = "Please enter a valid first name";
       }
-
     }
-    if ( Step === 3) {
-      if (!formData.lastName || !/^[A-Za-z]+$/.test(formData.lastName) || formData.lastName.length===0) {
+    if (Step === 2) {
+      if (
+        !formData.firstName ||
+        !/^[A-Za-z]+$/.test(formData.middleName) ||
+        formData.middleName.length === 0
+      ) {
+        validationErrors.middleName = "Please enter a valid middle name";
+      }
+    }
+    if (Step === 3) {
+      if (
+        !formData.lastName ||
+        !/^[A-Za-z]+$/.test(formData.lastName) ||
+        formData.lastName.length === 0
+      ) {
         validationErrors.lastName = "Please enter a valid last name";
       }
     }
@@ -59,7 +76,8 @@ const OnBoarding = () => {
         !/^\d+$/.test(formData.phoneNumber) ||
         formData.phoneNumber.length !== 10
       ) {
-        validationErrors.phoneNumber = "Please enter a valid phone number (10 digits)";
+        validationErrors.phoneNumber =
+          "Please enter a valid phone number (10 digits)";
       }
     }
 
@@ -70,6 +88,7 @@ const OnBoarding = () => {
       if (Step !== 4) {
         setStep((prev) => prev + 1);
       } else {
+        dispatch(updateOnboarding(false));
         router.push("/");
       }
     }
@@ -83,16 +102,16 @@ const OnBoarding = () => {
       <div className="flex gap-[16px] flex-col justify-center items-center">
         {Step === 1 && (
           <Input
-            type="email"
-            placeholder="Enter your email"
-            onChange={(e) => handleInputChange("email", e.target.value)}
+            type="text"
+            placeholder="First name"
+            onChange={(e) => handleInputChange("firstName", e.target.value)}
           />
         )}
         {Step === 2 && (
           <Input
             type="text"
-            placeholder="First name"
-            onChange={(e) => handleInputChange("firstName", e.target.value)}
+            placeholder="Middle name"
+            onChange={(e) => handleInputChange("middleName", e.target.value)}
           />
         )}
         {Step === 3 && (
@@ -109,13 +128,16 @@ const OnBoarding = () => {
             onChange={(e) => handleInputChange("phoneNumber", e.target.value)}
           />
         )}
-        <Button onClick={validateAndProceed}>Proceed</Button>
+        <div className="flex justify-between w-full">
+          {Step == 2 && <Button onClick={handleSkip} variant={"secondary"}>Skip</Button>}
+          <Button onClick={validateAndProceed}>Proceed</Button>
+        </div>
       </div>
       {/* Display validation errors */}
-      {errors.email && <p>{errors.email}</p>}
-      {errors.firstName && <p>{errors.firstName}</p>}
-      {errors.lastName && <p>{errors.lastName}</p>}
-      {errors.phoneNumber && <p>{errors.phoneNumber}</p>}
+      {errors.firstName && <p className="text-red-500 w-[90vw] text-center">{errors.firstName}</p>}
+      {errors.middleName && <p className="text-red-500 w-[90vw] text-center">{errors.middleName}</p>}
+      {errors.lastName && <p className="text-red-500 w-[90vw] text-center">{errors.lastName}</p>}
+      {errors.phoneNumber && <p className="text-red-500 w-[90vw] text-center">{errors.phoneNumber}</p>}
     </div>
   );
 };

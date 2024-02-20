@@ -26,8 +26,11 @@ export const auth = createSlice({
     login: (state, action: PayloadAction<AuthState>) => {
       return { ...action.payload, isAuthenticated: true };
     },
+    updateOnboarding: (state, action: PayloadAction<boolean>) => {
+      return { ...state, isOnboarding: action.payload };
+    },
   },
 });
 
-export const { login, logout } = auth.actions;
+export const { login, logout, updateOnboarding } = auth.actions;
 export default auth.reducer;
