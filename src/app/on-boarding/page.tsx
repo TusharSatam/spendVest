@@ -6,6 +6,8 @@ import { LOGO } from "@/assets/images";
 import Image from "next/image";
 import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import { login, updateOnboarding } from "@/store/slices/authSlice";
 
 interface FormData {
   firstName: string;
@@ -15,6 +17,7 @@ interface FormData {
 }
 
 const OnBoarding = () => {
+  const dispatch=useDispatch()
   const [Step, setStep] = useState<number>(1);
   const router = useRouter();
   const [formData, setFormData] = useState<FormData>({
@@ -85,6 +88,7 @@ const OnBoarding = () => {
       if (Step !== 4) {
         setStep((prev) => prev + 1);
       } else {
+        dispatch(updateOnboarding(false));
         router.push("/");
       }
     }

@@ -59,8 +59,6 @@ const Signup = () => {
       isAuthenticated: true,
       isOnboarding:true,
     };
-    console.log(values);
-    console.log(userData);
     
     dispatch(login(userData))
     router.push('/on-boarding')
