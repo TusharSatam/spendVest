@@ -24,7 +24,7 @@ const SingleTestimony = ({ data }: { data: imageWithData }) => {
   return (
     <Card className="w-full max-w-[94vw]">
       <CardHeader className="flex flex-row justify-between">
-        <Image src={data.img} alt="" className="w-12 h-12 rounded-full object-cover object-center" />
+        <Image src={data.img} placeholder="blur" blurDataURL={data.img.blurDataURL} alt="" className="w-12 h-12 rounded-full object-cover object-center" />
         <div className="flex flex-col items-end text-end max-w-[calc(90%-48px)]">
           <CardTitle>{data?.user_name ?? "User Name"}</CardTitle>
           <CardDescription>

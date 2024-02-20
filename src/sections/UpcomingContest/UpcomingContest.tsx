@@ -30,8 +30,8 @@ export default function UpcomingContest() {
     },
   ];
   return (
-    <section className="w-full px-2 flex justify-centerm items-center relative">
-      <div className="h-8 w-[60%] absolute bg-gray-800 z-[1] top-1 left-1/2 -translate-x-1/2 rounded-b-2xl flex justify-center items-center text-center">
+    <section className="w-full px-2 flex justify-centerm items-center relative py-3">
+      <div className="h-8 w-[60%] absolute bg-gray-800 z-[1] top-4 left-1/2 -translate-x-1/2 rounded-b-2xl flex justify-center items-center text-center">
         <p>Upcoming Contest</p>
       </div>
       <Carousel opts={{ loop: true }} className="w-full">
@@ -40,7 +40,7 @@ export default function UpcomingContest() {
             <CarouselItem key={index}>
               <div className="p-1">
                 <Card className="bg-transparent relative">
-                  <Image src={bgImage} alt="" fill className="rounded-lg z-[1] opacity-20"/>
+                  <Image src={bgImage} placeholder="blur" blurDataURL={bgImage.blurDataURL} alt="" fill className="rounded-lg z-[1] opacity-20"/>
                   <CardContent className="flex aspect-square items-center justify-center gap-4 flex-col p-6 relative z-[2]">
                     <CardTitle>{obj.title}</CardTitle>
                     <Progress value={obj.value} />

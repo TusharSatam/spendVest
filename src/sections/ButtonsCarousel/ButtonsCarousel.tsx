@@ -29,7 +29,7 @@ const ButtonsCarousel: React.FC<ButtonsCarouselProps> = ({ text, data, className
                 <Button className={`px-10 ${bigBtn===true&&"h-14"}`}><p className="text-center max-w-[40vw] whitespace-normal">{obj.text}</p></Button>
               ) : obj.img ? (
                 <div className="relative w-[70vw] h-40 bg-white rounded-lg overflow-hidden">
-                <Image src={obj.img} alt="" fill className="bg-white object-contain" />
+                <Image src={obj.img} alt="" placeholder="blur" blurDataURL={obj.img.blurDataURL} fill className="bg-white object-contain" />
                 </div>
               ) : (
                 <div className="w-full grid p-6 place-items-center">
