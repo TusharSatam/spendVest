@@ -17,7 +17,7 @@ export default function RootLayout({
   const isOnBoarding = useSelector(
     (state: RootState) => state.authSlice.isOnboarding
   );
-  const [isDesktop, setIsDesktop] = useState<boolean>(window.innerWidth >= 768);
+  const [isDesktop, setIsDesktop] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
 
   const pathname = usePathname();
