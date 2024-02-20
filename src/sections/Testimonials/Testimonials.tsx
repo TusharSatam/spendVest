@@ -22,9 +22,9 @@ interface TestimonialsInterface {
 
 const SingleTestimony = ({ data }: { data: imageWithData }) => {
   return (
-    <Card className="w-full">
+    <Card className="w-full max-w-[94vw]">
       <CardHeader className="flex flex-row justify-between">
-        <Image src={data.img} alt="" className="w-12 h-12 rounded-full" />
+        <Image src={data.img} alt="" className="w-12 h-12 rounded-full object-cover object-center" />
         <div className="flex flex-col items-end text-end max-w-[calc(90%-48px)]">
           <CardTitle>{data?.user_name ?? "User Name"}</CardTitle>
           <CardDescription>
@@ -33,7 +33,7 @@ const SingleTestimony = ({ data }: { data: imageWithData }) => {
         </div>
       </CardHeader>
 
-      <CardFooter className="flex-col">
+      <CardFooter className="flex-col text-center gap-2">
         <CardTitle>{data?.title ?? "Some Title"}</CardTitle>
         <CardDescription>
           {data?.description ?? "Some description for the card of a testimony"}

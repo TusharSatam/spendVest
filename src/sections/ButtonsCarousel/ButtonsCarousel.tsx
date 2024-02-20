@@ -5,25 +5,44 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
+import Image from "next/image";
+import { carouselImageOrBtn } from "@/data/imageWithData";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
-interface ButtonsCarouselInterface {
+interface ButtonsCarouselProps {
   text: string;
-  data: {text:string}[];
+  data: carouselImageOrBtn[];
+  className?: string
+  bigBtn?:boolean
 }
 
-export function ButtonsCarousel({ text,data }: ButtonsCarouselInterface) {
+const ButtonsCarousel: React.FC<ButtonsCarouselProps> = ({ text, data, className,bigBtn }) => {
   return (
-    <section className="w-full px-2 flex flex-col justify-centerm items-center gap-2">
+    <section className={cn("w-full px-3 flex flex-col justify-center items-start text-start gap-2",className)}>
       <p>{text}</p>
-      <Carousel opts={{ loop: true }} className="w-full">
+      <Carousel opts={{ loop: false, }} className="w-full">
         <CarouselContent>
           {data.map((obj, index) => (
-            <CarouselItem key={index}>
-              <div className="p-1">{obj.text}</div>
+            <CarouselItem className="basis-auto" key={index}>
+              {obj.text ? (
+                <Button className={`px-10 ${bigBtn===true&&"h-14"}`}><p className="text-center max-w-[40vw] whitespace-normal">{obj.text}</p></Button>
+              ) : obj.img ? (
+                <div className="relative w-[70vw] h-40 bg-white rounded-lg overflow-hidden">
+                <Image src={obj.img} alt="" fill className="bg-white object-contain" />
+                </div>
+              ) : (
+                <div className="w-full grid p-6 place-items-center">
+                  <p className="text-red-600 font-bold text-xl">
+                    Obj.text or Obj.img is not available
+                  </p>
+                </div>
+              )}
             </CarouselItem>
           ))}
         </CarouselContent>
       </Carousel>
     </section>
   );
-}
+};
+export default ButtonsCarousel;

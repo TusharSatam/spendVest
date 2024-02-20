@@ -1,6 +1,11 @@
 import * as React from "react";
 
-import { Card, CardContent, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardTitle,
+} from "@/components/ui/card";
 import {
   Carousel,
   CarouselContent,
@@ -8,46 +13,41 @@ import {
   //   CarouselNext,
   //   CarouselPrevious,
 } from "@/components/ui/carousel";
+import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import bgImage from "@/assets/images/invest-daily.jpg"
+import bgImage from "@/assets/images/upcoming-contest.jpg";
 import Image from "next/image";
 
-export default function HomeSection2() {
+export default function UpcomingContest() {
   const data = [
     {
-      text: "Know more about us",
-      route: "/faq",
-      btnText: "Click Here",
-    },
-    {
-      text: "Start in 3 Steps",
-      route: "/explore",
-      btnText: "Start Now",
-    },
-    {
-      text: "Start as low as 50/day !!",
-      route: "/explore",
-      btnText: "Start Now",
+      title: "December CookOff !!",
+      value: 80,
+      desc: "Hurry up last date is 7th December",
+      btnText: "Participate Now!",
+      route:"/journey",
     },
   ];
   return (
     <section className="w-full px-2 flex justify-centerm items-center relative">
       <div className="h-8 w-[60%] absolute bg-gray-800 z-[1] top-1 left-1/2 -translate-x-1/2 rounded-b-2xl flex justify-center items-center text-center">
-        <p>Invest Daily</p>
+        <p>Upcoming Contest</p>
       </div>
       <Carousel opts={{ loop: true }} className="w-full">
         <CarouselContent>
           {data.map((obj, index) => (
             <CarouselItem key={index}>
               <div className="p-1">
-              <Card className="bg-transparent relative">
+                <Card className="bg-transparent relative">
                   <Image src={bgImage} alt="" fill className="rounded-lg z-[1] opacity-20"/>
-                  <CardContent className="flex flex-col aspect-video items-center justify-evenly p-6">
-                    <CardTitle>{obj.text}</CardTitle>
+                  <CardContent className="flex aspect-square items-center justify-center gap-4 flex-col p-6 relative z-[2]">
+                    <CardTitle>{obj.title}</CardTitle>
+                    <Progress value={obj.value} />
+                    <CardDescription className="text-gray-50">{obj.value}% full</CardDescription>
+                    <CardDescription className="text-gray-50">{obj.desc}</CardDescription>
                     <Link href={obj.route}>
-                      <Button>{obj.btnText}</Button>
-                    </Link>
+                    <Button>{obj.btnText}</Button></Link>
                   </CardContent>
                 </Card>
               </div>

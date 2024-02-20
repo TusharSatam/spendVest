@@ -4,8 +4,9 @@ import HomeHero from "@/sections/HomeHero/HomeHero";
 import HomeSection2 from "@/sections/HomeSection2/HomeSection2";
 import HomeTop from "@/sections/HomeTop/HomeTop";
 
-import { samplePartnerBrands } from "@/data/imageWithData";
+import { samplePartnerBrands, sampleTestimonyData } from "@/data/imageWithData";
 import Testimonials from "@/sections/Testimonials/Testimonials";
+import UpcomingContest from "@/sections/UpcomingContest/UpcomingContest";
 
 export default function Home() {
   return (
@@ -14,8 +15,9 @@ export default function Home() {
      <HomeTop/>
      <HomeHero/>
      <HomeSection2/>
-     <BrandPartners text="Partner Brands" data={samplePartnerBrands}/>
-     <Testimonials text="Testimonials" data={samplePartnerBrands}/>
+     <UpcomingContest/>
+     <BrandPartners text="Make Your App Squad" data={samplePartnerBrands}/>
+     <Testimonials text="Testimonials" data={sampleTestimonyData}/>
     </main>
   );
 }
