@@ -14,7 +14,7 @@ const initialState: AuthState = {
   id: "",
   name: "",
   email: "",
-  isAuthenticated: false,
+  isAuthenticated: true,
   isOnboarding:false,
 };
 
