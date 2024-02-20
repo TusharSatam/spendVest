@@ -4,6 +4,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
+import {  useRouter } from "next/navigation";
+
 import {
   Form,
   FormControl,
@@ -16,6 +18,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { LOGO } from "@/assets/images";
 import Image from "next/image";
+import Router from "next/router";
+import { useDispatch } from "react-redux";
+import { login } from "@/store/slices/authSlice";
 
 const formSchema = z
   .object({
@@ -31,6 +36,9 @@ const formSchema = z
   });
 
 const Signup = () => {
+  const dispatch=useDispatch()
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -43,13 +51,25 @@ const Signup = () => {
   function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
+    const userData = {
+      jwt: "your_jwt_token",
+      id: "user_id",
+      name: "user_name",
+      email: values?.email,
+      isAuthenticated: true,
+      isOnboarding:true,
+    };
     console.log(values);
+    console.log(userData);
+    
+    dispatch(login(userData))
+    router.push('/on-boarding')
   }
   return (
-    <div className="flex flex-col justify-center items-center h-screen w-screen bg-black">
-      {/* <div className="h-[20vh] ">
+    <div className="flex gap-[16px] flex-col justify-center items-center h-screen w-screen bg-black">
+      <div className="h-[20vh] ">
         <Image src={LOGO} alt="BG_LOGO"  className="h-full w-full"/>
-      </div> */}
+      </div>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -60,7 +80,7 @@ const Signup = () => {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="">Email</FormLabel>
+                <FormLabel className="">Email *</FormLabel>
                 <FormControl>
                   <Input
                     placeholder="Enter your Email"
@@ -77,7 +97,7 @@ const Signup = () => {
             name="pass"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="">Password</FormLabel>
+                <FormLabel className="">Password *</FormLabel>
                 <FormControl>
                   <Input
                     type="password"
@@ -95,7 +115,7 @@ const Signup = () => {
             name="cPass"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="">Confirm Password</FormLabel>
+                <FormLabel className="">Confirm Password *</FormLabel>
                 <FormControl>
                   <Input
                     type="password"
@@ -108,9 +128,12 @@ const Signup = () => {
               </FormItem>
             )}
           />
-          <Button type="submit">Submit</Button>
+          <Button type="submit">Sign up</Button>
         </form>
       </Form>
+      <div className="">
+      Already an user? <span className="underline cursor-pointer" onClick={()=>router.push('/login')}>Login</span>
+      </div>
     </div>
   );
 };

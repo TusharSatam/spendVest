@@ -4,6 +4,7 @@ import { RootState } from "@/store/store";
 import React, { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { usePathname, useRouter } from "next/navigation";
+import Navbar from "../Navbar/Navbar";
 
 export default function RootLayout({
   children,
@@ -13,12 +14,21 @@ export default function RootLayout({
   const isAuth = useSelector(
     (state: RootState) => state.authSlice.isAuthenticated
   );
+  const isOnBoarding = useSelector(
+    (state: RootState) => state.authSlice.isOnboarding
+  );
   const [isDesktop, setIsDesktop] = useState<boolean>(window.innerWidth >= 768);
   const [loading, setLoading] = useState<boolean>(true);
 
   const pathname = usePathname();
   const router = useRouter();
-  const unProtectedRoutes = ["/login", "/signup","/getStarted"];
+  const unProtectedRoutes = [
+    "/login",
+    "/signup",
+    "/getStarted",
+    "/forgot-password",
+    "/create-password",
+  ];
 
   useEffect(() => {
     let timeoutId: NodeJS.Timeout;
@@ -48,7 +58,11 @@ export default function RootLayout({
         if (!isAuth) {
           setLoading(false);
         } else {
-          router.push("/");
+          if (isOnBoarding) {
+            router.push("/on-boarding");
+          } else {
+            router.push("/");
+          }
         }
       } else {
         if (!isAuth) {
@@ -65,7 +79,7 @@ export default function RootLayout({
   }, [authVerifier]);
 
   return (
-    <>
+    <div className="h-screen">
       {loading ? (
         "Loading..."
       ) : isDesktop ? (
@@ -77,6 +91,7 @@ export default function RootLayout({
       ) : (
         children
       )}
-    </>
+      {isAuth && !isOnBoarding && <Navbar />}
+    </div>
   );
 }

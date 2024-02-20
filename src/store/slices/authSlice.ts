@@ -6,6 +6,7 @@ interface AuthState {
   name: string;
   email: string;
   isAuthenticated: boolean;
+  isOnboarding:boolean;
 }
 
 const initialState: AuthState = {
@@ -14,6 +15,7 @@ const initialState: AuthState = {
   name: "",
   email: "",
   isAuthenticated: false,
+  isOnboarding:false,
 };
 
 export const auth = createSlice({
