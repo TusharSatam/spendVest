@@ -20,6 +20,8 @@ const OpenProfile = () => {
       <DrawerTrigger asChild>
         <Image
           src={avatar}
+          placeholder="blur"
+          blurDataURL={avatar.blurDataURL}
           alt="avatar"
           className="rounded-full w-12 h-12 object-center object-cover"
         />
@@ -30,6 +32,8 @@ const OpenProfile = () => {
             <div className="w-full grid place-items-center">
               <Image
                 src={avatar}
+                placeholder="blur"
+                blurDataURL={avatar.blurDataURL}
                 alt="avatar"
                 className="rounded-full w-12 h-12 object-center object-cover"
               />

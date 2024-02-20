@@ -24,7 +24,7 @@ export default function HomeHero() {
             <ResizablePanel defaultSize={75}>
               <Link href={"/explore/travel"}>
                 <div className="flex h-full items-center justify-center relative">
-                  <Image src={travelImage} alt="" fill className="z-[1]" />
+                  <Image src={travelImage} placeholder="blur" blurDataURL={travelImage.blurDataURL} alt="" fill className="z-[1]" />
                   <div
                     style={{
                       background:
@@ -43,7 +43,7 @@ export default function HomeHero() {
             <ResizablePanel defaultSize={25}>
               <Link href={"/explore/travel"}>
                 <div className="flex h-full items-center justify-center relative">
-                  <Image src={gadgetImage} alt="" fill className="z-[1]" />
+                  <Image src={gadgetImage} placeholder="blur" blurDataURL={gadgetImage.blurDataURL} alt="" fill className="z-[1]" />
                   <div
                     style={{
                       background:
@@ -66,7 +66,7 @@ export default function HomeHero() {
             <ResizablePanel defaultSize={33.33}>
               <Link href={"/explore/travel"}>
                 <div className="flex h-full items-center justify-center relative">
-                  <Image src={shoppingImage} alt="" fill className="z-[1]" />
+                  <Image src={shoppingImage} placeholder="blur" blurDataURL={shoppingImage.blurDataURL} alt="" fill className="z-[1]" />
                   <div
                     style={{
                       background:
@@ -87,7 +87,7 @@ export default function HomeHero() {
             <ResizablePanel defaultSize={33.33}>
               <Link href={"/explore/travel"}>
                 <div className="flex h-full items-center justify-center relative">
-                  <Image src={jwelleryImage} alt="" fill className="z-[1]" />
+                  <Image src={jwelleryImage} placeholder="blur" blurDataURL={jwelleryImage.blurDataURL} alt="" fill className="z-[1]" />
                   <div
                     style={{
                       background:
@@ -107,7 +107,7 @@ export default function HomeHero() {
             <ResizablePanel defaultSize={33.34}>
               <Link href={"/explore/travel"}>
                 <div className="flex h-full items-center justify-center relative">
-                  <Image src={otherImage} alt="" fill className="z-[1]" />
+                  <Image src={otherImage} placeholder="blur" blurDataURL={otherImage.blurDataURL} alt="" fill className="z-[1]" />
                   <div
                     style={{
                       background:
