@@ -44,11 +44,12 @@ export default function RootLayout({
 
     // Initial call to set the initial state based on window size
     resizeHandler();
-
-    window.addEventListener("resize", resizeHandler);
-    return () => {
-      window.removeEventListener("resize", resizeHandler);
-    };
+    if (typeof window !== "undefined") {
+      window.addEventListener("resize", resizeHandler);
+      return () => {
+        window.removeEventListener("resize", resizeHandler);
+      };
+    }
   }, []);
 
   const authVerifier = useCallback(() => {
