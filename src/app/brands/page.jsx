@@ -43,7 +43,7 @@ const Page = () => {
     };
   return (
     <div className="flex flex-col justify-center items-center gap-5 px-[5%] py-[5%]">
-      <h1>Make your own Squad</h1>
+      <h1 className="font-semibold text-xl">Make your own Squad</h1>
 
       {imagesArray.map((category, index) => (
         <div key={index} className="flex flex-col gap-2">
@@ -55,9 +55,10 @@ const Page = () => {
                   style={{
                     border: selectedImage === src ? '4px solid #f7d547' : 'none',
                   }}
+                  key={i}
                 >
                     <Image
-                      key={i}
+                  
                       className={`h-full`}
                       src={src}
                       alt={`Image ${i + 1}`}
