@@ -74,18 +74,18 @@ const ProfileHeader: FC<ProfileHeaderProps> = ({}) => {
           </div>
         </div>
         <div className="flex justify-center items-center gap-2">
-          <Link href={"/settings"}>
+          <Link href={"/faq"}>
             <Button
               variant={"secondary"}
-              className="rounded-full h-full aspect-square"
+              className="rounded-full h-[56px]"
             >
-              <Component1Icon width={18} height={18} />
+              <p className="leading-[18px]">FAQs</p>
             </Button>
           </Link>
           <Link href={"/notifications"}>
             <Button
               variant={"secondary"}
-              className="rounded-full h-full aspect-square"
+              className="rounded-full h-[56px] aspect-square"
             >
               <BellIcon width={18} height={18} />
             </Button>

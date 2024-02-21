@@ -85,7 +85,7 @@ export const sampleTestimonyData: imageWithData[] = [
 
 export const sampleTextArrForCarousel: carouselImageOrBtn[] = [
   { text: "Travel",route:"travel",img:travelImage },
-  { text: "Jwellery", img: jwelleryImage },
+  { text: "Jewellery", img: jwelleryImage },
   { text: "Gadgets", img: gadgetsImage },
 ];
 

@@ -4,8 +4,10 @@ import { selectionsCarouselType } from "@/data/imageWithData";
 import SelectionsCarousel from "@/sections/SlectionsCarousel/SelectionsCarousel";
 import { FC, useState } from "react";
 import { Input } from "@/components/ui/input";
-import { makemytripLogoImage,easemytripLogoImage } from "@/assets/brand-logos";
+import { makemytripLogoImage, easemytripLogoImage } from "@/assets/brand-logos";
 import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 interface pageProps {
   params: {
@@ -33,22 +35,22 @@ const initialInvestmentFrequency: selectionsCarouselType[] = [
 
 const initialBrands: selectionsCarouselType[] = [
   {
-    img:makemytripLogoImage,    
+    img: makemytripLogoImage,
     value: 1,
     selected: false,
   },
   {
-    img:easemytripLogoImage,
+    img: easemytripLogoImage,
     value: 2,
     selected: false,
   },
-]
+];
 
 const Page: FC<pageProps> = ({ params }) => {
   const [investmentFrequency, setInvestmentFrequency] = useState<
     selectionsCarouselType[]
   >(initialInvestmentFrequency);
-  const [brands,setBrands] = useState<selectionsCarouselType[]>(initialBrands)
+  const [brands, setBrands] = useState<selectionsCarouselType[]>(initialBrands);
   const [totalAmount, setTotalAmount] = useState<number>(60000);
   return (
     <main>
@@ -71,36 +73,46 @@ const Page: FC<pageProps> = ({ params }) => {
               placeholder="Enter Amount"
             />
           </span>{" "}
-          {" (Editable)"}
+          <span>
+            <Button>Update</Button>
+          </span>
         </p>
       </section>
-      <Separator className="mb-3"/>
-        <SelectionsCarousel
-          data={investmentFrequency}
-          className="mb-2"
-          text="Duration (Refer APP)"
-          onClick={(obj) => {
-            setInvestmentFrequency((prev)=>{
-              const newArr = [...initialInvestmentFrequency];
-              const index = newArr.findIndex(item=>item.value===obj.value);
-              newArr[index] = {...obj,selected:true}
-              return newArr;
-            })
-          }}
-        />
-        <SelectionsCarousel
-          data={brands}
-          className="mb-2"
-          text="Brands waiting for you"
-          onClick={(obj) => {
-            setBrands((prev)=>{
-              const newArr = [...initialBrands];
-              const index = newArr.findIndex(item=>item.value===obj.value);
-              newArr[index] = {...obj,selected:true}
-              return newArr;
-            })
-          }}
-        />
+      <Separator className="mb-3" />
+      <SelectionsCarousel
+        data={investmentFrequency}
+        className="mb-2"
+        text="Duration"
+        onClick={(obj) => {
+          setInvestmentFrequency((prev) => {
+            const newArr = [...initialInvestmentFrequency];
+            const index = newArr.findIndex((item) => item.value === obj.value);
+            newArr[index] = { ...obj, selected: true };
+            return newArr;
+          });
+        }}
+      />
+      <SelectionsCarousel
+        data={brands}
+        className="mb-2"
+        text="Brands waiting for you"
+        onClick={(obj) => {
+          setBrands((prev) => {
+            const newArr = [...initialBrands];
+            const index = newArr.findIndex((item) => item.value === obj.value);
+            newArr[index] = { ...obj, selected: true };
+            return newArr;
+          });
+        }}
+      />
+      <section className="p-3 my-3 flex flex-col justify-around items-center gap-5">
+        <p className="text-gray-100 text-center text-sm max-w-[240px]">
+          Choose any of the brands and get up to 20% off!!
+        </p>
+        <Link href={`/explore/travel/${params.name}/proceed`}>
+          <Button>Proceed</Button>
+        </Link>
+      </section>
     </main>
   );
 };
