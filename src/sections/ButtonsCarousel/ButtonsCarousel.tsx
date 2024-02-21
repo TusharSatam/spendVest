@@ -31,7 +31,7 @@ const ButtonsCarousel: React.FC<ButtonsCarouselProps> = ({
         className
       )}
     >
-      <p>{text}</p>
+      <p className="font-semibold mt-2">{text}</p>
       <Carousel opts={{ loop: false }} className="w-full">
         <CarouselContent>
           {data.map((obj, index) => (

@@ -10,7 +10,7 @@ const page: FC<pageProps> = ({}) => {
     <main>
       <ExploreHero currentTopic="Wander Often, Wonder Always"/>
       <ButtonsCarousel className="mb-2" text="Top Travel Treasures" data={sampleDataForTravelTreasures} />
-      <ButtonsCarousel bigBtn className="mb-2" text="Trending" data={sampleTrendingTravelsData} />
+      <ButtonsCarousel bigBtn className="mb-2" text="Trending &uarr;" data={sampleTrendingTravelsData} />
       <ButtonsCarousel bigBtn className="mb-2" text="Brands waiting for you" data={travelBrands} />
     </main>
   );

@@ -33,7 +33,7 @@ export default function HomeSection2() {
   ];
   return (
     <section className="w-full px-2 flex justify-centerm items-center relative py-3">
-      <div className="h-8 w-[60%] absolute bg-gray-800 z-[1] top-4 left-1/2 -translate-x-1/2 rounded-b-2xl flex justify-center items-center text-center">
+      <div className="h-8 w-[60%] absolute bg-yellow-500 z-[1] top-4 left-1/2 -translate-x-1/2 rounded-b-2xl font-bold flex justify-center items-center text-center">
         <p>Invest Daily</p>
       </div>
       <Carousel opts={{ loop: true }} className="w-full">
