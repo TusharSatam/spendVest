@@ -44,28 +44,28 @@ const OnBoarding = () => {
     if (Step === 1) {
       if (
         !formData.firstName ||
-        !/^[A-Za-z]+$/.test(formData.firstName) ||
+        !/^[A-Z][a-z]*$/.test(formData.firstName) || // Check if the first character is capitalized
         formData.firstName.length === 0
       ) {
-        validationErrors.firstName = "Please enter a valid first name";
+        validationErrors.firstName = "Please enter a valid first name with the first character capitalized";
       }
     }
     if (Step === 2) {
       if (
-        !formData.firstName ||
-        !/^[A-Za-z]+$/.test(formData.middleName) ||
+        !formData.middleName ||
+        !/^[A-Z][a-z]*$/.test(formData.middleName) || // Check if the first character is capitalized
         formData.middleName.length === 0
       ) {
-        validationErrors.middleName = "Please enter a valid middle name";
+        validationErrors.middleName = "Please enter a valid middle name with the first character capitalized";
       }
     }
     if (Step === 3) {
       if (
         !formData.lastName ||
-        !/^[A-Za-z]+$/.test(formData.lastName) ||
+        !/^[A-Z][a-z]*$/.test(formData.lastName) || // Check if the first character is capitalized
         formData.lastName.length === 0
       ) {
-        validationErrors.lastName = "Please enter a valid last name";
+        validationErrors.lastName = "Please enter a valid last name with the first character capitalized";
       }
     }
 

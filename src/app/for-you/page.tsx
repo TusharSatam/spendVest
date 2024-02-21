@@ -2,12 +2,12 @@ import Image from "next/image";
 import React from "react";
 import avatar from "../../assets/avatar.jpg";
 import { Progress } from "@/components/ui/progress";
+
 import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import {
   Carousel,
   CarouselContent,
@@ -106,37 +106,46 @@ const page = () => {
               </CardDescription>
             </CardHeader>
           </Card>
+          <Card className="text-center">
+            <CardHeader>
+              <CardTitle>Bank Details</CardTitle>
+              <CardDescription className="text-[12px]">
+                Safely manage and update your bank information.
+              </CardDescription>
+            </CardHeader>
+          </Card>
         </div>
       </div>
       <h2 className="mb-3 text-xl font-semibold">Your Current Ratio: 0.4</h2>
       <div className="GoalsStatus text-left w-full">
         <h2 className="mb-3 text-xl font-semibold">Goals Status</h2>
-        <div className="goalsPercentages grid grid-cols-3 gap-2">
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger className="h-[100px] border border-white rounded-full  hover:bg-gray-500">20%</TooltipTrigger>
-              <TooltipContent>
-                <p>Just started!</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger className="h-[100px] border border-white rounded-full  hover:bg-gray-500">50%</TooltipTrigger>
-              <TooltipContent>
-                <p>Halfway through!</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger className="h-[100px] border border-white rounded-full  hover:bg-gray-500">66%</TooltipTrigger>
-              <TooltipContent>
-                <p>Almost there!</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+        <div className="goalsPercentages grid grid-cols-3 gap-2 my-3">
+          <Popover>
+            <PopoverTrigger className="border h-[100px] w-[100px] rounded-full">
+              20%
+            </PopoverTrigger>
+            <PopoverContent>Just started!</PopoverContent>
+          </Popover>
+          <Popover>
+            <PopoverTrigger className="border h-[100px] w-[100px] rounded-full">
+              50%
+            </PopoverTrigger>
+            <PopoverContent>Halfway through!</PopoverContent>
+          </Popover>
+          <Popover>
+            <PopoverTrigger className="border h-[100px] w-[100px] rounded-full">
+              60%
+            </PopoverTrigger>
+            <PopoverContent>Almost ther!</PopoverContent>
+          </Popover>
         </div>
+        <h4>Your savings increased by 5%</h4>
+        <h4>You have been consstent for 38days. Keep it up</h4>
+      </div>
+      <div className="w-full flex items-center justify-center">
+        <Button variant={"secondary"} className="">
+          View detailed stats of your progress
+        </Button>
       </div>
     </div>
   );
