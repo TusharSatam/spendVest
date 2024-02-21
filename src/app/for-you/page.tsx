@@ -26,7 +26,39 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import Link from "next/link";
+
 const page = () => {
+  const cardData = [
+    {
+      title: "Investor profile",
+      description: "View and manage your investor profile details.",
+      link: "/brands",
+    },
+    {
+      title: "Keep it Up & check",
+      description: "Stay on top of your progress and reminders.",
+      link: "/brands",
+    },
+    {
+      title: "Auto payments",
+      description: "Set up and manage your automatic payments.",
+      link: "/brands",
+    },
+    {
+      title: "Bank Details",
+      description: "Safely manage and update your bank information.",
+      link: "/brands",
+    },
+  ];
+
+  const Rewards = [
+    { src: amazonLogoImage, alt: "Amazon Logo" },
+    { src: myntraLogoImage, alt: "Myntra Logo" },
+    { src: makemytripLogoImage, alt: "MakeMyTrip Logo" },
+    { src: pepperfryLogoImage, alt: "Pepperfry Logo" },
+  ];
+
   return (
     <div className="px-[5%] py-[5%] flex flex-col gap-[1.5rem] justify-center items-center">
       <div className="flex flex-col my-6 justify-center items-center">
@@ -43,34 +75,15 @@ const page = () => {
         <Carousel>
           <h2 className="mb-3 text-xl font-semibold">Your Rewards</h2>
           <CarouselContent>
-            <CarouselItem className="basis-1/3">
-              <Image
-                src={amazonLogoImage}
-                alt="offerImage"
-                className="h-[80px] w-full"
-              />
-            </CarouselItem>
-            <CarouselItem className="basis-1/3">
-              <Image
-                src={myntraLogoImage}
-                alt="offerImage"
-                className="h-[80px] w-full"
-              />
-            </CarouselItem>
-            <CarouselItem className="basis-1/3">
-              <Image
-                src={makemytripLogoImage}
-                alt="offerImage"
-                className="h-[80px] w-full"
-              />
-            </CarouselItem>
-            <CarouselItem className="basis-1/3">
-              <Image
-                src={pepperfryLogoImage}
-                alt="offerImage"
-                className="h-[80px] w-full"
-              />
-            </CarouselItem>
+            {Rewards.map((Reward, index) => (
+              <CarouselItem key={index} className="basis-1/3">
+                <Image
+                  src={Reward.src}
+                  alt={Reward.alt}
+                  className="h-[80px] w-full"
+                />
+              </CarouselItem>
+            ))}
           </CarouselContent>
         </Carousel>
       </div>
@@ -82,38 +95,18 @@ const page = () => {
       <div className="nextSteps ">
         <h2 className="mb-3 text-xl font-semibold">Next Steps</h2>
         <div className="grid grid-cols-2 gap-3">
-          <Card className="text-center">
-            <CardHeader>
-              <CardTitle>Investor profile</CardTitle>
-              <CardDescription className="text-[12px]">
-                View and manage your investor profile details.
-              </CardDescription>
-            </CardHeader>
-          </Card>
-          <Card className="text-center">
-            <CardHeader>
-              <CardTitle>Keep it Up & check</CardTitle>
-              <CardDescription className="text-[12px]">
-                Stay on top of your progress and reminders.
-              </CardDescription>
-            </CardHeader>
-          </Card>
-          <Card className="text-center">
-            <CardHeader>
-              <CardTitle>Auto payments</CardTitle>
-              <CardDescription className="text-[12px]">
-                Set up and manage your automatic payments.
-              </CardDescription>
-            </CardHeader>
-          </Card>
-          <Card className="text-center">
-            <CardHeader>
-              <CardTitle>Bank Details</CardTitle>
-              <CardDescription className="text-[12px]">
-                Safely manage and update your bank information.
-              </CardDescription>
-            </CardHeader>
-          </Card>
+          {cardData.map((card, index) => (
+            <Link href={card.link} key={index}>
+              <Card className="text-center">
+                <CardHeader>
+                  <CardTitle>{card.title}</CardTitle>
+                  <CardDescription className="text-[12px]">
+                    {card.description}
+                  </CardDescription>
+                </CardHeader>
+              </Card>
+            </Link>
+          ))}
         </div>
       </div>
       <h2 className="mb-3 text-xl font-semibold">Your Current Ratio: 0.4</h2>
