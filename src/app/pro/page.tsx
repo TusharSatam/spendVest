@@ -9,7 +9,7 @@ const Pro = () => {
       <div className="currentPlanInfo flex flex-col gap-3 items-center justify-center">
         <Image src={LOGO} alt="LOGO" className="h-[100px] w-[100px] " />
         <h2>Current Plan : Free</h2>
-        <Button>GetPremium</Button>
+        <Button>Get Premium</Button>
       </div>
       <div className="premiumBenefits p-3 flex flex-col justify-center items-center gap-5">
        <h1 className="text-xl font-semibold text-left w-full">Why Join Premium?</h1>
