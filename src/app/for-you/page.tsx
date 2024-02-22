@@ -88,7 +88,7 @@ const page = () => {
         </Carousel>
       </div>
       <div className="ProfileDInfo flex flex-col  text-center">
-        <Button className="mb-4">Complete Profile!</Button>
+        <Button className="mb-4"><Link href={"/complete-profile"}></Link>Complete Profile!</Button>
         <Progress value={56} />
         <p>56% completed</p>
       </div>

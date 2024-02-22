@@ -39,7 +39,7 @@ const OpenProfile = () => {
               />
             </div>
             <DrawerTitle className="p-2 rounded-full border border-gray-800 cursor-pointer">
-              Complete Profile
+              <Link href={"/complete-profile"}>Complete Profile</Link>
             </DrawerTitle>
             <ul className="flex flex-col justify-start items-start list-disc gap-1 pl-6 rounded-lg border border-gray-800 py-2">
               <li>Invite Friends</li>

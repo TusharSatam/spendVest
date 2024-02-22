@@ -80,7 +80,7 @@ export default function RootLayout({
   }, [authVerifier]);
 
   return (
-    <div className="h-screen">
+    <div className="min-h-screen">
       {loading ? (
         "Loading..."
       ) : isDesktop ? (
