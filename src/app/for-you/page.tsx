@@ -36,8 +36,8 @@ const page = () => {
       link: "/brands",
     },
     {
-      title: "Keep it Up & check",
-      description: "Stay on top of your progress and reminders.",
+      title: "Integrate to Start",
+      description: "Effortlessly integrate and streamline your workflow.",
       link: "/brands",
     },
     {
@@ -46,17 +46,16 @@ const page = () => {
       link: "/brands",
     },
     {
-      title: "Bank Details",
-      description: "Safely manage and update your bank information.",
+      title: "Your Details",
+      description: "Safely manage and update your  information.",
       link: "/brands",
     },
   ];
 
   const Rewards = [
-    { src: amazonLogoImage, alt: "Amazon Logo" },
-    { src: myntraLogoImage, alt: "Myntra Logo" },
-    { src: makemytripLogoImage, alt: "MakeMyTrip Logo" },
-    { src: pepperfryLogoImage, alt: "Pepperfry Logo" },
+    { title: "Jan Knight", Link: "/" },
+    { title: "Learned Pupil", Link: "/" },
+    { title: "Persistent Tortoise", Link: "/" },
   ];
 
   return (
@@ -74,21 +73,20 @@ const page = () => {
       <div className="youRewards">
         <Carousel>
           <h2 className="mb-3 text-xl font-semibold">Your Rewards</h2>
-          <CarouselContent>
+          <div className="grid grid-cols-3 gap-1">
             {Rewards.map((Reward, index) => (
-              <CarouselItem key={index} className="basis-1/3">
-                <Image
-                  src={Reward.src}
-                  alt={Reward.alt}
-                  className="h-[80px] w-full"
-                />
-              </CarouselItem>
+              <div key={index} className="basis-1/3 border p-2 text-center rounded-lg">
+                <h2 className="text-lg">{Reward.title}</h2>
+                <Link href={Reward?.Link} className="underline">Unlock</Link>
+              </div>
             ))}
-          </CarouselContent>
+          </div>
         </Carousel>
       </div>
       <div className="ProfileDInfo flex flex-col  text-center">
-        <Button className="mb-4"><Link href={"/complete-profile"}></Link>Complete Profile!</Button>
+        <Button className="mb-4">
+          <Link href={"/complete-profile"}></Link>Complete Profile!
+        </Button>
         <Progress value={56} />
         <p>56% completed</p>
       </div>
@@ -97,14 +95,12 @@ const page = () => {
         <div className="grid grid-cols-2 gap-3">
           {cardData.map((card, index) => (
             <Link href={card.link} key={index}>
-              <Card className="text-center">
-                <CardHeader>
-                  <CardTitle>{card.title}</CardTitle>
-                  <CardDescription className="text-[12px]">
+              <div className="text-center border rounded-lg p-3 h-full flex flex-col justify-center items-center">
+                  <h2 className="text-lg">{card.title}</h2>
+                  <p className="text-[12px] text-gray-500 text-md">
                     {card.description}
-                  </CardDescription>
-                </CardHeader>
-              </Card>
+                  </p>
+              </div>
             </Link>
           ))}
         </div>
@@ -132,9 +128,12 @@ const page = () => {
             <PopoverContent>Almost ther!</PopoverContent>
           </Popover>
         </div>
-        <h4>Your savings increased by 5%</h4>
-        <h4>You have been consstent for 38days. Keep it up</h4>
       </div>
+        <div className=" border p-3 rounded-lg">
+          <h2 className="mb-3 text-lg font-semibold"> Insights</h2>
+          <p>Your savings increased by 5%</p>
+          <p>You have been consstent for 38days. Keep it up</p>
+        </div>
       <div className="w-full flex items-center justify-center">
         <Button variant={"secondary"} className="">
           View detailed stats of your progress
