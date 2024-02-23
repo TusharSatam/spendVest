@@ -73,7 +73,7 @@ export default function RootLayout({
         }
       }
     }
-  }, [pathname, isAuth]);
+  }, [pathname, isAuth, isOnBoarding]);
 
   useEffect(() => {
     authVerifier();

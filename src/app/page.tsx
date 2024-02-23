@@ -21,7 +21,7 @@ export default function Home() {
       <UpcomingContest />
       <section className="flex p-3 flex-col justify-start items-center gap-2 my-2">
         <p className="text-xl text-gray-100 my-3">Make your squad</p>
-        <Link href={"/partners"}>
+        <Link href={"/brands"}>
           <Button>Partner Apps</Button>
         </Link>
       </section>
