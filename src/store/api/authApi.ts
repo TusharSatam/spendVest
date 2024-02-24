@@ -8,7 +8,7 @@ interface Credentials {
 
 interface UserData {
   jwt: string;
-  id: string;
+  _id: string;
   name: string;
   email: string;
   isAuthenticated: boolean;
@@ -17,7 +17,7 @@ interface UserData {
 export const authApi = createApi({
   reducerPath: "authApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: process.env.NEXT_APP_PUBLIC + "api/auth/",
+    baseUrl: process.env.NEXT_PUBLIC_BASE_URL + "auth/",
     credentials: "same-origin",
     mode: "cors",
     prepareHeaders: (headers, { getState }) => {
@@ -27,7 +27,7 @@ export const authApi = createApi({
         headers.set("Authorization", `${bearertoken}`);
       }
       return headers;
-    },
+    }
   }),
   endpoints: (builder) => ({
     login: builder.mutation<UserData, Credentials>({
@@ -39,7 +39,7 @@ export const authApi = createApi({
     }),
     signup: builder.mutation<UserData, Credentials>({
       query: (credentials) => ({
-        url: "register",
+        url: "signup",
         method: "POST",
         body: credentials,
       }),
@@ -56,6 +56,5 @@ export const authApi = createApi({
 export const {
   useLoginMutation,
   useSignupMutation,
-  useLazyProtectedRouteQuery,
   useProtectedRouteQuery,
 } = authApi;

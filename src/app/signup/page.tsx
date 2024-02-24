@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
-import {  useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 import {
   Form,
@@ -20,7 +20,9 @@ import { LOGO } from "@/assets/images";
 import Image from "next/image";
 import Router from "next/router";
 import { useDispatch } from "react-redux";
-import { login } from "@/store/slices/authSlice";
+import { AuthState, login } from "@/store/slices/authSlice";
+import { useSignupMutation } from "@/store/api/authApi";
+import Loader from "@/components/Loader/Loader";
 
 const formSchema = z
   .object({
@@ -36,7 +38,7 @@ const formSchema = z
   });
 
 const Signup = () => {
-  const dispatch=useDispatch()
+  const dispatch = useDispatch();
   const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -47,26 +49,47 @@ const Signup = () => {
       cPass: "",
     },
   });
+
+  const [signupFunc, signupData] = useSignupMutation();
+
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    const userData = {
-      jwt: "your_jwt_token",
-      id: "user_id",
-      name: "user_name",
-      email: values?.email,
-      isAuthenticated: true,
-      isOnboarding:true,
-    };
-    
-    dispatch(login(userData))
-    router.push('/on-boarding')
+    try {
+      const formData = {
+        email: values.email,
+        password: values.pass,
+      };
+      const res:{data?:any,error?:any} = await signupFunc(formData);
+      if (res.error) {
+        alert("Error occured during signup");
+        return;
+      } else if(res.data) {
+        console.log({reduxData:res.data})
+        const userData:AuthState = {
+          jwt: res?.data?.token,
+          _id: res?.data?.data?._id,
+          name: "",
+          phoneNumber: "",
+          email: values?.email,
+          isAuthenticated: true,
+          isOnboarding: true,
+        };
+        localStorage.setItem("jwt",res?.data?.token);
+        localStorage.setItem("userId",res?.data?.data?._id);
+        dispatch(login(userData));
+        router.push("/on-boarding");
+      }
+    } catch (error) {
+      alert("Some error occured during signup process");
+    }
   }
-  return (
+  return (<>
+  {signupData.isLoading===true&&<Loader/>}
     <div className="flex gap-[16px] flex-col justify-center items-center h-screen w-screen bg-black">
       <div className="h-[20vh] ">
-        <Image src={LOGO} alt="BG_LOGO"  className="h-full w-full"/>
+        <Image src={LOGO} alt="BG_LOGO" className="h-full w-full" />
       </div>
       <Form {...form}>
         <form
@@ -130,9 +153,15 @@ const Signup = () => {
         </form>
       </Form>
       <div className="">
-      Already an user? <span className="underline cursor-pointer" onClick={()=>router.push('/login')}>Login</span>
+        Already an user?{" "}
+        <span
+          className="underline cursor-pointer"
+          onClick={() => router.push("/login")}
+        >
+          Login
+        </span>
       </div>
     </div>
-  );
+  </>);
 };
 export default Signup;

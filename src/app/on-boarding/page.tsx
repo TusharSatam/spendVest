@@ -6,8 +6,10 @@ import { LOGO } from "@/assets/images";
 import Image from "next/image";
 import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { login, updateOnboarding } from "@/store/slices/authSlice";
+import { UserData, useUpdateUserMutation } from "@/store/api/userApi";
+import { RootState } from "@/store/store";
 
 interface FormData {
   firstName: string;
@@ -17,7 +19,8 @@ interface FormData {
 }
 
 const OnBoarding = () => {
-  const dispatch=useDispatch()
+  const dispatch = useDispatch();
+  const user = useSelector((state: RootState) => state.authSlice);
   const [Step, setStep] = useState<number>(1);
   const router = useRouter();
   const [formData, setFormData] = useState<FormData>({
@@ -28,18 +31,19 @@ const OnBoarding = () => {
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
 
+  const [updateUserFunc, updateUserData] = useUpdateUserMutation();
+
   const handleInputChange = (name: string, value: string) => {
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
   let validationErrors: Record<string, string> = {};
   const handleSkip = () => {
-    setStep((prev)=>prev+1)
-    setErrors({})
+    setStep((prev) => prev + 1);
+    setErrors({});
   };
 
-  const validateAndProceed = () => {
-
+  const validateAndProceed = async () => {
     // Validate firstName ,middleName and lastName
     if (Step === 1) {
       if (
@@ -47,7 +51,8 @@ const OnBoarding = () => {
         !/^[A-Z][a-z]*$/.test(formData.firstName) || // Check if the first character is capitalized
         formData.firstName.length === 0
       ) {
-        validationErrors.firstName = "Please enter a valid first name with the first character capitalized";
+        validationErrors.firstName =
+          "Please enter a valid first name with the first character capitalized";
       }
     }
     if (Step === 2) {
@@ -56,7 +61,8 @@ const OnBoarding = () => {
         !/^[A-Z][a-z]*$/.test(formData.middleName) || // Check if the first character is capitalized
         formData.middleName.length === 0
       ) {
-        validationErrors.middleName = "Please enter a valid middle name with the first character capitalized";
+        validationErrors.middleName =
+          "Please enter a valid middle name with the first character capitalized";
       }
     }
     if (Step === 3) {
@@ -65,7 +71,8 @@ const OnBoarding = () => {
         !/^[A-Z][a-z]*$/.test(formData.lastName) || // Check if the first character is capitalized
         formData.lastName.length === 0
       ) {
-        validationErrors.lastName = "Please enter a valid last name with the first character capitalized";
+        validationErrors.lastName =
+          "Please enter a valid last name with the first character capitalized";
       }
     }
 
@@ -88,8 +95,25 @@ const OnBoarding = () => {
       if (Step !== 4) {
         setStep((prev) => prev + 1);
       } else {
-        dispatch(updateOnboarding(false));
-        router.push("/");
+        const payloadData = {
+          ...user,
+          isOnboarding: undefined, // Exclude isOnboarding
+          isAuthenticated: undefined, // Exclude isAuthenticated
+          name: (
+            formData.firstName +
+            " " +
+            formData.middleName +
+            " " +
+            formData.lastName
+          ).trim(),
+          phoneNumber: formData.phoneNumber,
+        };
+        updateUserFunc(payloadData)
+          .then((res) => {
+            dispatch(updateOnboarding(false));
+            router.push("/");
+          })
+          .catch((err) => {});
       }
     }
   };
@@ -129,15 +153,29 @@ const OnBoarding = () => {
           />
         )}
         <div className="flex justify-between w-full">
-          {Step == 2 && <Button onClick={handleSkip} variant={"secondary"}>Skip</Button>}
+          {Step == 2 && (
+            <Button onClick={handleSkip} variant={"secondary"}>
+              Skip
+            </Button>
+          )}
           <Button onClick={validateAndProceed}>Proceed</Button>
         </div>
       </div>
       {/* Display validation errors */}
-      {errors.firstName && <p className="text-red-500 w-[90vw] text-center">{errors.firstName}</p>}
-      {errors.middleName && <p className="text-red-500 w-[90vw] text-center">{errors.middleName}</p>}
-      {errors.lastName && <p className="text-red-500 w-[90vw] text-center">{errors.lastName}</p>}
-      {errors.phoneNumber && <p className="text-red-500 w-[90vw] text-center">{errors.phoneNumber}</p>}
+      {errors.firstName && (
+        <p className="text-red-500 w-[90vw] text-center">{errors.firstName}</p>
+      )}
+      {errors.middleName && (
+        <p className="text-red-500 w-[90vw] text-center">{errors.middleName}</p>
+      )}
+      {errors.lastName && (
+        <p className="text-red-500 w-[90vw] text-center">{errors.lastName}</p>
+      )}
+      {errors.phoneNumber && (
+        <p className="text-red-500 w-[90vw] text-center">
+          {errors.phoneNumber}
+        </p>
+      )}
     </div>
   );
 };

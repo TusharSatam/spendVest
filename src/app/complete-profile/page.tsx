@@ -5,7 +5,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Image from "next/image";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store/store";
+import Loader from "@/components/Loader/Loader";
+import { useUpdateUserMutation } from "@/store/api/userApi";
+import { login } from "@/store/slices/authSlice";
 
 const CompletedProfile: React.FC = () => {
   const [image, setImage] = useState<File | null>(null); // State for the selected image
@@ -15,7 +20,7 @@ const CompletedProfile: React.FC = () => {
   const [lastName, setLastName] = useState<string>("");
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [panNumber, setPanNumber] = useState<string>("");
-  const [monthlySalary, setMonthlySalary] = useState<string>("");
+  const [monthlySalary, setMonthlySalary] = useState<number>(0);
   const [dob, setDob] = useState<string>("");
   const [firstNameError, setFirstNameError] = useState<string>("");
   const [middleNameError, setMiddleNameError] = useState<string>("");
@@ -25,6 +30,22 @@ const CompletedProfile: React.FC = () => {
   const [salaryError, setSalaryError] = useState<string>("");
   const [dobError, setDobError] = useState<string>("");
   const imageRef = useRef<HTMLInputElement | null>(null);
+  console.log({dob})
+
+  const user = useSelector((state: RootState) => state.authSlice);
+
+  const [updateUserFunc,updateUserData] = useUpdateUserMutation();
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    setFirstName(user.name ?? "");
+    setPhoneNumber(user.phoneNumber ?? "");
+    setPanNumber(user.panNumber ?? "");
+    setMonthlySalary(user.salary ?? 0);
+    setDob(user?.DOB ?? "");
+  }, [user]);
+
   const validateName = (name: string, fieldName: string) => {
     if (!name.trim()) {
       return `${fieldName} is required.`;
@@ -49,7 +70,7 @@ const CompletedProfile: React.FC = () => {
 
   const validateSalary = () => {
     if (
-      monthlySalary === "" ||
+      monthlySalary === 0 ||
       isNaN(Number(monthlySalary)) ||
       Number(monthlySalary) <= 0
     ) {
@@ -73,18 +94,18 @@ const CompletedProfile: React.FC = () => {
     return "";
   };
 
-  const handleSubmitProfileData = () => {
+  const handleSubmitProfileData = async () => {
     const firstNameValidation = validateName(firstName, "First Name");
-    const middleNameValidation = validateName(middleName, "Middle Name");
-    const lastNameValidation = validateName(lastName, "Last Name");
+    // const middleNameValidation = validateName(middleName, "Middle Name");
+    // const lastNameValidation = validateName(lastName, "Last Name");
     const phoneNumberValidation = validatePhoneNumber(phoneNumber);
     const panValidation = validatePan();
     const salaryValidation = validateSalary();
     const dobValidation = validateDob();
 
     setFirstNameError(firstNameValidation);
-    setMiddleNameError(middleNameValidation);
-    setLastNameError(lastNameValidation);
+    // setMiddleNameError(middleNameValidation);
+    // setLastNameError(lastNameValidation);
     setPhoneNumberError(phoneNumberValidation);
     setPanError(panValidation);
     setSalaryError(salaryValidation);
@@ -93,26 +114,39 @@ const CompletedProfile: React.FC = () => {
     // Check if all validations pass before submitting
     if (
       !firstNameValidation &&
-      !middleNameValidation &&
-      !lastNameValidation &&
+      // !middleNameValidation &&
+      // !lastNameValidation &&
       !phoneNumberValidation &&
       !panValidation &&
       !salaryValidation &&
       !dobValidation
     ) {
       // Handle form submission logic here
-      console.log("Submitted Data:", {
+      const {isAuthenticated,isOnboarding,...payLoadData} = {
+        ...user,
         firstName,
-        middleName,
-        lastName,
         phoneNumber,
         panNumber,
-        monthlySalary,
-        dob,
-        image,
-      });
+        salary:monthlySalary,
+        DOB:dob,
+      }
+      updateUserFunc(payLoadData).then((res)=>{
+        if("data" in res){
+          if("success" in res.data){
+            dispatch(login({isAuthenticated,isOnboarding,...payLoadData}));
+          }
+        }
+      })
+      // console.log("Submitted Data:", {
+      //   firstName,
+      //   phoneNumber,
+      //   panNumber,
+      //   monthlySalary,
+      //   dob,
+      // });
     }
   };
+
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     // Get the selected image file
     const selectedFile = e.target.files && e.target.files[0];
@@ -144,7 +178,15 @@ const CompletedProfile: React.FC = () => {
     await handleChangeImage();
     handleImageClick();
   };
-  return (
+
+  useEffect(()=>{
+    if(updateUserData.isError){
+      alert("Some error occured during data updateing");
+    }
+  },[updateUserData.isError]);
+
+  return (<>
+  {updateUserData.isLoading&&<Loader/>}
     <div className="flex flex-col justify-center items-center px-[10%] py-[5%]  gap-4 min-h-screen  my-3">
       <div className="w-full flex justify-center items-center ">
         {!imagePreview ? (
@@ -191,12 +233,12 @@ const CompletedProfile: React.FC = () => {
           </div>
         )}
       </div>
-      <div className="grid  grid-cols-2 gap-2">
-        <div className="flex flex-col  gap-4 ">
-          <Label>
-            First Name *
+      <div className="grid  grid-cols-2 gap-2 w-full">
+        <div className="flex flex-col col-span-2  gap-4 w-full">
+          <Label className="w-full">
+            Full Name *
             <Input
-              className="mt-4 h-[40px] "
+              className="mt-4 h-[40px] w-full"
               style={{ border: "2px solid white" }}
               type="text"
               value={firstName}
@@ -209,7 +251,7 @@ const CompletedProfile: React.FC = () => {
           )}
         </div>
 
-        <div className="flex flex-col  gap-4 ">
+        {/* <div className="flex flex-col  gap-4 ">
           <Label>
             Middle Name *
             <Input
@@ -224,10 +266,10 @@ const CompletedProfile: React.FC = () => {
           {middleNameError && (
             <p className="text-red-500 text-sm">{middleNameError}</p>
           )}
-        </div>
+        </div> */}
       </div>
-      <div className="grid  grid-cols-2 gap-2">
-        <div className="flex flex-col  gap-4 ">
+      <div className="grid  grid-cols-2 gap-2 w-full">
+        {/* <div className="flex flex-col  gap-4 ">
           <Label>
             Last Name *
             <Input
@@ -242,18 +284,18 @@ const CompletedProfile: React.FC = () => {
           {lastNameError && (
             <p className="text-red-500 text-sm">{lastNameError}</p>
           )}
-        </div>
+        </div> */}
 
-        <div className="flex flex-col  gap-4 ">
-          <Label>
+        <div className="flex flex-col col-span-2 gap-4 w-full">
+          <Label className="w-full">
             {" Monthly Salary (₹)"}
             *
             <Input
-              className="mt-4 h-[40px] "
+              className="mt-4 h-[40px] w-full"
               style={{ border: "2px solid white" }}
               type="number"
               value={monthlySalary}
-              onChange={(e) => setMonthlySalary(e.target.value)}
+              onChange={(e) => setMonthlySalary(Number(e.target.value))}
             />
           </Label>
           {salaryError && <p className="text-red-500 text-sm">{salaryError}</p>}
@@ -311,7 +353,7 @@ const CompletedProfile: React.FC = () => {
         </Button>
       </div>
     </div>
-  );
+  </>);
 };
 
 export default CompletedProfile;

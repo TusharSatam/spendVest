@@ -1,20 +1,27 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface AuthState {
+export interface AuthState {
   jwt?: string;
-  id: string;
-  name: string;
+  _id?: string;
+  name?: string;
   email: string;
+  phoneNumber?: string;
+  panNumber?: string;
+  salary?: number,
+  currentRatio?: number,
+  Gender?: string,
+  DOB?: string,
   isAuthenticated: boolean;
   isOnboarding:boolean;
 }
 
 const initialState: AuthState = {
   jwt: "",
-  id: "",
+  _id: "",
   name: "",
   email: "",
-  isAuthenticated: true,
+  phoneNumber: "",
+  isAuthenticated: false,
   isOnboarding:false,
 };
 
@@ -24,7 +31,7 @@ export const auth = createSlice({
   reducers: {
     logout: () => initialState,
     login: (state, action: PayloadAction<AuthState>) => {
-      return { ...action.payload, isAuthenticated: true };
+      return { ...state, ...action.payload, isAuthenticated: true };
     },
     updateOnboarding: (state, action: PayloadAction<boolean>) => {
       return { ...state, isOnboarding: action.payload };
