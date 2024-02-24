@@ -51,15 +51,14 @@ const Page = () => {
           <div className="grid grid-cols-3 gap-2">
             {category.ImageName.map((src, i) => (
                 <div
-                className={`h-[80px] ${selectedImage === src ?"rounded-md":""}`}
+                className={`h-[80px] ${selectedImage === src ?"rounded-lg":""}`}
                   style={{
                     border: selectedImage === src ? '4px solid #f7d547' : 'none',
                   }}
                   key={i}
                 >
-                    <Image
-                  
-                      className={`h-full`}
+                    <Image      
+                      className={`h-full rounded-sm`}
                       src={src}
                       alt={`Image ${i + 1}`}
                       onClick={() => handleImageClick(src)}
