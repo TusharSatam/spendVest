@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 
 const Pro = () => {
   return (
-    <div className="px-[5%] py-[5%] flex flex-col items-center justify-center gap-[1.5rem]">
+    <div className="px-[5%] py-[5%] min-h-[calc(100vh-80px)] flex flex-col items-center justify-center gap-[1.5rem]">
       <div className="currentPlanInfo flex flex-col gap-3 items-center justify-center">
         <Image src={LOGO} alt="LOGO" className="h-[100px] w-[100px] " />
         <h2>Current Plan : Free</h2>
@@ -15,8 +15,7 @@ const Pro = () => {
        <h1 className="text-xl font-semibold text-left w-full">Why Join Premium?</h1>
         <ul className="list-disc">
           <li>
-            Imstant credit upto 10,000 at 0% interest rate (if returned before
-            monthly renewal date)
+            Imstant credit upto 10,000 at 0% interest rate
           </li>
           <li>Joint account setup</li>
           <li>Connect multiple apps for each category</li>
@@ -24,6 +23,8 @@ const Pro = () => {
         </ul>
         <Button variant={"secondary"}>Be Unstoppable</Button>
       </div>
+      <p className="text-xs opacity-60">T&C* (if returned before
+            monthly renewal date)</p>
     </div>
   );
 };

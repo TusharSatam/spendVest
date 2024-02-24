@@ -36,7 +36,7 @@ const page = () => {
       link: "/brands",
     },
     {
-      title: "Integrate to Start",
+      title: "Integrate Apps",
       description: "Effortlessly integrate and streamline your workflow.",
       link: "/brands",
     },
@@ -84,9 +84,9 @@ const page = () => {
         </Carousel>
       </div>
       <div className="ProfileDInfo flex flex-col  text-center">
-        <Button className="mb-4">
-          <Link href={"/complete-profile"}></Link>Complete Profile!
-        </Button>
+          <Link href={"/complete-profile"}>
+        <Button className="mb-4">Complete Profile!
+        </Button></Link>
         <Progress value={56} />
         <p>56% completed</p>
       </div>
