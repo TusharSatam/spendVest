@@ -8,6 +8,7 @@ import { makemytripLogoImage, easemytripLogoImage } from "@/assets/brand-logos";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { Slider } from "@/components/ui/slider";
 
 interface pageProps {
   params: {
@@ -52,8 +53,9 @@ const Page: FC<pageProps> = ({ params }) => {
   >(initialInvestmentFrequency);
   const [brands, setBrands] = useState<selectionsCarouselType[]>(initialBrands);
   const [totalAmount, setTotalAmount] = useState<number>(60000);
+  const [duration,setDuration] = useState<number[]>([30])
   return (
-    <main>
+    <main className="flex flex-col justify-center items-center min-h-[calc(100vh-80px)] gap-2">
       <section className="flex flex-col p-3 w-full min-h-[140px] justify-around items-center text-center">
         <p className="text-xl font-medium text-gray-100">
           Please Choose a Goal Amount
@@ -79,6 +81,13 @@ const Page: FC<pageProps> = ({ params }) => {
         </p>
       </section>
       <Separator className="mb-3" />
+      <section className="w-full px-3 flex flex-col justify-center items-start text-start gap-2 mb-2">
+            <p>Duration</p>
+            <p className="text-sm">{duration[0]} days</p>
+            <div className="w-full flex justify-center items-center">
+            <Slider onValueChange={(e)=>{setDuration(e)}} value={duration} max={365} step={1} className="w-[98%]" />
+            </div>
+      </section>
       <SelectionsCarousel
         data={investmentFrequency}
         className="mb-2"

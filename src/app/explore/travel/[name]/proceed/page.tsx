@@ -9,7 +9,7 @@ interface pageProps {
 
 const page: FC<pageProps> = ({ params }) => {
   return (
-    <main>
+    <main className="flex flex-col gap-2 justify-center items-center min-h-[calc(100vh-80px)]">
       <section className="flex flex-col p-3 w-full min-h-[140px] justify-around items-center text-center">
         <p className="text-sm font-medium text-gray-100">
           Congrats! You have unlocked an offer

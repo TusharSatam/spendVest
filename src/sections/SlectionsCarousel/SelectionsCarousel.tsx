@@ -48,14 +48,13 @@ const SelectionsCarousel: React.FC<SelectionsCarouselProps> = ({
                   </p>
                 </Button>
               ) : obj.img ? (
-                <div onClick={() => onClick(obj)} className={`relative w-[70vw] h-40 bg-white rounded-lg overflow-hidden ${obj.selected?"saturate-50 brightness-75":""}`}>
+                <div onClick={() => onClick(obj)} className={`relative bg-white rounded-lg overflow-hidden ${obj.selected?"saturate-50 brightness-75":""}`}>
                   <Image
                     src={obj.img}
                     alt=""
                     placeholder="blur"
                     blurDataURL={obj.img.blurDataURL}
-                    fill
-                    className="bg-white object-contain"
+                    className="h-[80px] w-auto mx-1 rounded-lg"
                   />
                 </div>
               ) : (

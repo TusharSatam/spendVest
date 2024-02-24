@@ -4,7 +4,7 @@ import { FC } from "react";
 import avatar from "@/assets/profile-avatar.jpg";
 import Image from "next/image";
 import { Button } from "../ui/button";
-import { BellIcon, Component1Icon } from "@radix-ui/react-icons";
+// import { BellIcon, Component1Icon } from "@radix-ui/react-icons";
 import Link from "next/link";
 import {
   DrawerContent,
@@ -82,14 +82,14 @@ const ProfileHeader: FC<ProfileHeaderProps> = ({}) => {
               <p className="leading-[18px]">FAQs</p>
             </Button>
           </Link>
-          <Link href={"/notifications"}>
+          {/* <Link href={"/notifications"}>
             <Button
               variant={"secondary"}
               className="rounded-full h-[56px] aspect-square"
             >
               <BellIcon width={18} height={18} />
             </Button>
-          </Link>
+          </Link> */}
         </div>
       </section>
     </header>
