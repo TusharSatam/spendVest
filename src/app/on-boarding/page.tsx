@@ -110,10 +110,27 @@ const OnBoarding = () => {
         };
         updateUserFunc(payloadData)
           .then((res) => {
-            dispatch(updateOnboarding(false));
-            router.push("/");
+            if ("data" in res) {
+              if ("success" in res.data) {
+                dispatch(
+                  login({
+                    ...payloadData,
+                    isAuthenticated: true,
+                    isOnboarding: false,
+                  })
+                );
+                router.push("/");
+              } else {
+                alert("some error occured");
+              }
+            } else {
+              alert("some error occured");
+            }
           })
-          .catch((err) => {});
+          .catch((err) => {
+            console.log({ err });
+            alert("some error occured");
+          });
       }
     }
   };

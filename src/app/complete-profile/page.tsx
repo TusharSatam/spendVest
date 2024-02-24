@@ -133,7 +133,7 @@ const CompletedProfile: React.FC = () => {
       updateUserFunc(payLoadData).then((res)=>{
         if("data" in res){
           if("success" in res.data){
-            dispatch(login({isAuthenticated,isOnboarding,...payLoadData}));
+            dispatch(login({isAuthenticated:true,isOnboarding:false,...payLoadData}));
           }
         }
       })
