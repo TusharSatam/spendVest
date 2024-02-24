@@ -18,6 +18,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { LOGO } from "@/assets/images";
 import Image from "next/image";
+import { useLoginMutation } from "@/store/api/authApi";
+import Loader from "@/components/Loader/Loader";
+import { useDispatch } from "react-redux";
+import { AuthState, login } from "@/store/slices/authSlice";
 
 const formSchema = z.object({
   email: z.string().email({
@@ -36,13 +40,47 @@ const Login = () => {
       pass: "",
     },
   });
+  const dispatch = useDispatch();
+  const [loginFunc,loginData] = useLoginMutation();
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    console.log(values);
+    // console.log(values);
+    try {
+      const formData = {
+        email:values.email,
+        password:values.pass
+      }
+      const res:{data?:any,error?:any} = await loginFunc(formData);
+      if (res.error) {
+        alert("Error occured during signup");
+        return;
+      } else if(res.data) {
+        const onboardingBoolean = (res?.data?.name !== undefined && res?.data?.phone !== undefined) === true;
+        const userData:AuthState = {
+          jwt: res?.data?.token,
+          _id: res?.data?._id,
+          name: res?.data?.name,
+          phoneNumber:res?.data?.phone,
+          email: values?.email,
+          isAuthenticated: true,
+          isOnboarding: onboardingBoolean,
+        };
+        localStorage.setItem("jwt",res?.data?.token);
+        localStorage.setItem("userId",res?.data?.user?._id);
+        dispatch(login(userData));
+        if(onboardingBoolean){
+        router.push("/on-boarding");
+        }
+      }
+    } catch (err) {
+      alert("some error occured during login")
+    }
   }
   return (
+    <>
+    {loginData.isLoading&&<Loader/>}
     <div className="flex gap-[16px] flex-col justify-center items-center h-screen w-screen bg-black">
       <div className="h-[20vh] ">
         <Image src={LOGO} alt="BG_LOGO" className="h-full w-full" />
@@ -107,6 +145,6 @@ const Login = () => {
         </span>
       </div>
     </div>
-  );
+  </>);
 };
 export default Login;

@@ -16,6 +16,10 @@ interface pageProps {
   };
 }
 
+interface brandsI extends selectionsCarouselType {
+  name?: string;
+}
+
 const initialInvestmentFrequency: selectionsCarouselType[] = [
   {
     text: "Daily",
@@ -34,16 +38,18 @@ const initialInvestmentFrequency: selectionsCarouselType[] = [
   },
 ];
 
-const initialBrands: selectionsCarouselType[] = [
+const initialBrands: brandsI[] = [
   {
     img: makemytripLogoImage,
     value: 1,
     selected: false,
+    name: "Make my Trip",
   },
   {
     img: easemytripLogoImage,
     value: 2,
     selected: false,
+    name: "Ease my Trip",
   },
 ];
 
@@ -53,7 +59,7 @@ const Page: FC<pageProps> = ({ params }) => {
   >(initialInvestmentFrequency);
   const [brands, setBrands] = useState<selectionsCarouselType[]>(initialBrands);
   const [totalAmount, setTotalAmount] = useState<number>(60000);
-  const [duration,setDuration] = useState<number[]>([30])
+  const [duration, setDuration] = useState<number[]>([30]);
   return (
     <main className="flex flex-col justify-center items-center min-h-[calc(100vh-80px)] gap-2">
       <section className="flex flex-col p-3 w-full min-h-[140px] justify-around items-center text-center">
@@ -82,11 +88,19 @@ const Page: FC<pageProps> = ({ params }) => {
       </section>
       <Separator className="mb-3" />
       <section className="w-full px-3 flex flex-col justify-center items-start text-start gap-2 mb-2">
-            <p>Duration</p>
-            <p className="text-sm">{duration[0]} days</p>
-            <div className="w-full flex justify-center items-center">
-            <Slider onValueChange={(e)=>{setDuration(e)}} value={duration} max={365} step={1} className="w-[98%]" />
-            </div>
+        <p>Duration</p>
+        <p className="text-sm">{duration[0]} days</p>
+        <div className="w-full flex justify-center items-center">
+          <Slider
+            onValueChange={(e) => {
+              setDuration(e);
+            }}
+            value={duration}
+            max={365}
+            step={1}
+            className="w-[98%]"
+          />
+        </div>
       </section>
       <SelectionsCarousel
         data={investmentFrequency}
@@ -118,7 +132,14 @@ const Page: FC<pageProps> = ({ params }) => {
         <p className="text-gray-100 text-center text-sm max-w-[240px]">
           Choose any of the brands and get up to 20% off!!
         </p>
-        <Link href={`/explore/travel/${params.name}/proceed`}>
+        <Link
+          href={`/explore/travel/${params.name}/proceed?brand=${
+            brands.find((obj) => obj.selected === true)?.text ?? ""
+          }&duration=${duration[0]}&investmentFrequency=${
+            investmentFrequency.find((obj) => obj.selected === true)?.value ??
+            ""
+          }&totalAmount=${totalAmount}`}
+        >
           <Button>Proceed</Button>
         </Link>
       </section>

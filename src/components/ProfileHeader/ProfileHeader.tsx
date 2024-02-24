@@ -13,8 +13,19 @@ import {
   DrawerTrigger,
   Drawer,
 } from "@/components/ui/drawer";
+import { useDispatch } from "react-redux";
+import { logout } from "@/store/slices/authSlice";
+import { useRouter } from "next/navigation";
 
 const OpenProfile = () => {
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const logoutFunc = () => {
+    localStorage.removeItem("jwt");
+    localStorage.removeItem("userId");
+    dispatch(logout());
+    // router.replace("/login");
+  }
   return (
     <Drawer>
       <DrawerTrigger asChild>
@@ -49,7 +60,7 @@ const OpenProfile = () => {
               <li>Terms and Conditions</li>
               <li>Privacy Policy</li>
             </ul>
-            <DrawerTitle className="p-2 rounded-full border border-gray-800 cursor-pointer">
+            <DrawerTitle onClick={logoutFunc} className="p-2 rounded-full border border-gray-800 cursor-pointer">
               Logout
             </DrawerTitle>
           </DrawerHeader>
