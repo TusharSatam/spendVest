@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import {
     Table,
@@ -17,10 +17,40 @@ import {
     SelectTrigger,
     SelectValue,
   } from "@/components/ui/select";
+import { GoalI, useLazyGetMyGoalsQuery } from '@/store/api/goalApi';
 const Public = () => {
     const [selectedTab, setSelectedTab] = useState<String>("overall");
     const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
       setSelectedTab(event.target.value);
+    };
+
+    const [myGoalsAPI, myGoalsData] = useLazyGetMyGoalsQuery();
+
+    useEffect(() => {
+      myGoalsAPI();
+    }, []);
+
+    function formatNumber(num: number) {
+      const roundedNumber = num.toFixed(2);
+      return roundedNumber.endsWith(".00")
+        ? roundedNumber.slice(0, -3)
+        : roundedNumber;
+    }
+  
+    const RatioNum = () => {
+      // Calculate the sum of all ratios
+      if (myGoalsData.data?.data) {
+        const sumOfRatios = myGoalsData.data?.data.reduce(
+          (sum:number, item:GoalI) => sum + item.ratio,
+          0
+        );
+  
+        // Calculate the average
+        const averageRatio = sumOfRatios / myGoalsData.data?.data?.length;
+        return formatNumber(averageRatio*100);
+      } else {
+        return "Loading...";
+      }
     };
   return (
     <TabsContent
@@ -28,7 +58,7 @@ const Public = () => {
     className="h-full flex flex-col gap-[2rem] mt-4"
   >
     <h1 className="w-full font-extrabold text-xl text-center">
-      Room no-40
+      Room no-{<RatioNum/>}
     </h1>
     <div className="border p-2 rounded-md">
       <h2>Aim high, Save Higher!</h2>

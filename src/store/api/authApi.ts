@@ -24,7 +24,10 @@ export const authApi = createApi({
       const bearertoken = (getState() as RootState).authSlice.jwt;
       // If we have a bearertoken set in state, let's assume that we should be passing it.
       if (bearertoken) {
-        headers.set("Authorization", `${bearertoken}`);
+        headers.set("Authorization", `Bearer ${bearertoken}`);
+      } else {
+        const localJWT = localStorage.getItem("jwt");
+        headers.set("Authorization", `Bearer ${localJWT}`);
       }
       return headers;
     }

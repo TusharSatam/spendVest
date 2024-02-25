@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { login, updateOnboarding } from "@/store/slices/authSlice";
 import { UserData, useUpdateUserMutation } from "@/store/api/userApi";
 import { RootState } from "@/store/store";
+import Loader from "@/components/Loader/Loader";
 
 interface FormData {
   firstName: string;
@@ -137,6 +138,7 @@ const OnBoarding = () => {
 
   return (
     <div className="flex gap-[16px] flex-col justify-center items-center h-screen w-screen bg-black">
+      {updateUserData.isLoading&&<Loader/>}
       <div className="h-[20vh]">
         <Image src={LOGO} alt="BG_LOGO" className="h-full w-full" />
       </div>

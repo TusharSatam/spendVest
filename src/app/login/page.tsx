@@ -71,7 +71,9 @@ const Login = () => {
         localStorage.setItem("userId",res?.data?.user?._id);
         dispatch(login(userData));
         if(onboardingBoolean){
-        router.push("/on-boarding");
+        router.replace("/on-boarding");
+        }else{
+          router.replace("/")
         }
       }
     } catch (err) {
