@@ -146,6 +146,31 @@ export default function RootLayout({
     authVerifier();
   }, [authVerifier]);
 
+  const [isFocused, setIsFocused] = useState(false);
+
+  useEffect(() => {
+    const handleFocusChange = (event:FocusEvent) => {
+      const focusedElementType = (event.target as HTMLElement).tagName.toLowerCase();
+      if (focusedElementType === 'input' || focusedElementType === 'textarea') {
+        setIsFocused(true);
+      }
+    };
+
+    const handleBlurChange = () => {
+      setIsFocused(false);
+    };
+
+    // Add event listeners to document to capture focus and blur events on all input and textarea elements
+    document.addEventListener('focus', handleFocusChange, true);
+    document.addEventListener('blur', handleBlurChange, true);
+
+    // Cleanup function to remove event listeners when component unmounts
+    return () => {
+      document.removeEventListener('focus', handleFocusChange, true);
+      document.removeEventListener('blur', handleBlurChange, true);
+    };
+  }, []);
+
   return (
     <div className="min-h-screen">
       {loading ? (
@@ -159,7 +184,7 @@ export default function RootLayout({
       ) : (
        loading===false && children
       )}
-      {isAuth && !isOnBoarding && <Navbar />}
+      {isAuth && !isOnBoarding && <Navbar isFocused={isFocused}/>}
       <Toaster/>
     </div>
   );
