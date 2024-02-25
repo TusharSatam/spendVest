@@ -1,14 +1,22 @@
-import { FC } from 'react'
+import { FC } from "react";
 
 interface LoaderProps {
-  
+  small?: boolean;
 }
 
-const Loader: FC<LoaderProps> = ({}) => {
-  return (
-    <div className='fixed inset-0 z-[100] bg-[rgba(0,0,0,0.3)] backdrop-blur-md flex justify-center items-center'>
-   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 150" style={{position:"absolute",top:"50%",left:"50%",transform:"translate(-50%, -50%)",zIndex:10}}>
-     <path
+const loaderSvg = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 300 150"
+    style={{
+      position: "absolute",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+      zIndex: 10,
+    }}
+  >
+    <path
       fill="none"
       stroke="#FFFF00"
       stroke-width="15"
@@ -27,9 +35,16 @@ const Loader: FC<LoaderProps> = ({}) => {
       ></animate>
     </path>
   </svg>
+);
 
-    </div>
-  )
-}
+const Loader: FC<LoaderProps> = ({ small }) => {
+  if (small === true) return loaderSvg;
+  else
+    return (
+      <div className="fixed inset-0 z-[100] bg-[rgba(0,0,0,0.3)] backdrop-blur-md flex justify-center items-center">
+        {loaderSvg}
+      </div>
+    );
+};
 
-export default Loader
+export default Loader;

@@ -9,6 +9,7 @@ import Loader from "../Loader/Loader";
 import { useLazyCheckUserQuery } from "@/store/api/userApi";
 import { AuthState, login, logout } from "@/store/slices/authSlice";
 import { ISOStringFormat } from "date-fns";
+import { Toaster } from "../ui/toaster";
 
 export default function RootLayout({
   children,
@@ -71,9 +72,12 @@ export default function RootLayout({
       userAPIFunc({ _id: userIdLocal, jwt: jwtLocal })
         .then((res) => {
           if (res.error) {
-            localStorage.removeItem("jwt");
-            localStorage.removeItem("userId");
-            dispatch(logout());
+            // throttling with cookie that can count the API calls can be used
+
+            // localStorage.removeItem("jwt"); // commenting this is bad for scale but good for jugaad
+            // localStorage.removeItem("userId");
+            // dispatch(logout());
+            setLoading(false);
           }
           const userData = res?.data?.data;
           if (userData) {
@@ -109,9 +113,9 @@ export default function RootLayout({
         })
         .catch((err) => {
           console.log({ err });
-          dispatch(logout());
-          localStorage.removeItem("jwt");
-          localStorage.removeItem("userId");
+          // dispatch(logout());
+          // localStorage.removeItem("jwt");
+          // localStorage.removeItem("userId");
         });
     }
     if (isAuth !== undefined && jwtToken !== undefined) {
@@ -153,9 +157,10 @@ export default function RootLayout({
           </p>
         </div>
       ) : (
-        children
+       loading===false && children
       )}
       {isAuth && !isOnBoarding && <Navbar />}
+      <Toaster/>
     </div>
   );
 }

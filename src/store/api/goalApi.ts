@@ -1,14 +1,21 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { RootState } from "../store";
-import { AuthState } from "../slices/authSlice";
 
-export interface UserData
-  extends Omit<AuthState, "isAuthenticated" | "isOnboarding"> {}
+export interface GoalI {
+  goalName: string;
+  targetAmount: number;
+  investmentFrequency: number;
+  ratio: number;
+  totalAmountInvested: number;
+  brandName: string;
+  user: string;
+  duration: number;
+}
 
-export const userApi = createApi({
-  reducerPath: "userApi",
+export const goalApi = createApi({
+  reducerPath: "goalApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: process.env.NEXT_PUBLIC_BASE_URL + "user/",
+    baseUrl: process.env.NEXT_PUBLIC_BASE_URL + "goal/",
     credentials: "same-origin",
     mode: "cors",
     prepareHeaders: (headers, { getState }) => {
@@ -24,27 +31,20 @@ export const userApi = createApi({
     },
   }),
   endpoints: (builder) => ({
-    checkUser: builder.query<{ data: UserData }, { _id: string; jwt: string }>({
+    createGoal: builder.mutation<any, GoalI>({
       query: (data) => ({
-        url: `${data._id}`,
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${data.jwt}`,
-        },
+        url: "",
+        method: "POST",
+        body: data,
       }),
     }),
-    updateUser: builder.mutation<UserData, UserData>({
-      query: (data) => ({
-        url: `${data._id}`,
-        method: "PUT",
-        body: data,
+    getMyGoals: builder.query<{data:GoalI[]}, void>({
+      query: () => ({
+        url: "",
+        method: "GET",
       }),
     }),
   }),
 });
 
-export const {
-  useCheckUserQuery,
-  useLazyCheckUserQuery,
-  useUpdateUserMutation,
-} = userApi;
+export const { useCreateGoalMutation, useLazyGetMyGoalsQuery } = goalApi;

@@ -24,7 +24,7 @@ const OpenProfile = () => {
     localStorage.removeItem("jwt");
     localStorage.removeItem("userId");
     dispatch(logout());
-    // router.replace("/login");
+    router.replace("/login");
   }
   return (
     <Drawer>

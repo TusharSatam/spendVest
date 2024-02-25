@@ -57,7 +57,7 @@ const Page: FC<pageProps> = ({ params }) => {
   const [investmentFrequency, setInvestmentFrequency] = useState<
     selectionsCarouselType[]
   >(initialInvestmentFrequency);
-  const [brands, setBrands] = useState<selectionsCarouselType[]>(initialBrands);
+  const [brands, setBrands] = useState<brandsI[]>(initialBrands);
   const [totalAmount, setTotalAmount] = useState<number>(60000);
   const [duration, setDuration] = useState<number[]>([30]);
   return (
@@ -105,7 +105,7 @@ const Page: FC<pageProps> = ({ params }) => {
       <SelectionsCarousel
         data={investmentFrequency}
         className="mb-2"
-        text="Duration"
+        text="Investment Frequency"
         onClick={(obj) => {
           setInvestmentFrequency((prev) => {
             const newArr = [...initialInvestmentFrequency];
@@ -134,10 +134,10 @@ const Page: FC<pageProps> = ({ params }) => {
         </p>
         <Link
           href={`/explore/travel/${params.name}/proceed?brand=${
-            brands.find((obj) => obj.selected === true)?.text ?? ""
+            brands.find((obj) => obj.selected === true)?.name ?? ""
           }&duration=${duration[0]}&investmentFrequency=${
             investmentFrequency.find((obj) => obj.selected === true)?.value ??
-            ""
+            0
           }&totalAmount=${totalAmount}`}
         >
           <Button>Proceed</Button>
