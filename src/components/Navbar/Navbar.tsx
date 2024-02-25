@@ -8,13 +8,15 @@ import {
   AvatarIcon,
 } from "@radix-ui/react-icons";
 
-interface NavbarProps {}
+interface NavbarProps {
+  isFocused:boolean
+}
 
-const Navbar: FC<NavbarProps> = ({}) => {
+const Navbar: FC<NavbarProps> = ({isFocused}) => {
   return (
     <>
       <nav
-        style={{ clipPath: "ellipse(60% 100% at 50% 100%)" }}
+        style={{ clipPath: "ellipse(60% 100% at 50% 100%)",display:isFocused?"none":"flex" }}
         className="fixed bottom-0 h-20 left-0 right-0 z-50 flex justify-around items-center backdrop-blur-lg bg-[rgba(156,163,175,0.2)] text-xs"
       >
         <Link
