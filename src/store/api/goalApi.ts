@@ -5,10 +5,10 @@ export interface GoalI {
   goalName: string;
   targetAmount: number;
   investmentFrequency: number;
-  ratio: number;
+  ratio: number | string;
   totalAmountInvested: number;
   brandName: string;
-  user: string;
+  userId: string;
   duration: number;
 }
 
@@ -16,7 +16,7 @@ export const goalApi = createApi({
   reducerPath: "goalApi",
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.NEXT_PUBLIC_BASE_URL + "goal/",
-    credentials: "same-origin",
+    credentials: "include",
     mode: "cors",
     prepareHeaders: (headers, { getState }) => {
       const bearertoken = (getState() as RootState).authSlice.jwt;

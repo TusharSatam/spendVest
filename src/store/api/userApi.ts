@@ -9,7 +9,7 @@ export const userApi = createApi({
   reducerPath: "userApi",
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.NEXT_PUBLIC_BASE_URL + "user/",
-    credentials: "same-origin",
+    credentials: "include",
     mode: "cors",
     prepareHeaders: (headers, { getState }) => {
       const bearertoken = (getState() as RootState).authSlice.jwt;
@@ -28,9 +28,6 @@ export const userApi = createApi({
       query: (data) => ({
         url: `${data._id}`,
         method: "GET",
-        headers: {
-          Authorization: `Bearer ${data.jwt}`,
-        },
       }),
     }),
     updateUser: builder.mutation<UserData, UserData>({
