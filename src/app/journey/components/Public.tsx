@@ -41,13 +41,14 @@ const Public = () => {
       // Calculate the sum of all ratios
       if (myGoalsData.data?.data) {
         const sumOfRatios = myGoalsData.data?.data.reduce(
-          (sum:number, item:GoalI) => sum + item.ratio,
+          (sum:number, item:GoalI) => sum + Number(item.ratio),
           0
         );
   
         // Calculate the average
         const averageRatio = sumOfRatios / myGoalsData.data?.data?.length;
-        return formatNumber(averageRatio*100);
+        const avgNum = isNaN(averageRatio)===true?0:averageRatio
+        return formatNumber(avgNum*100);
       } else {
         return "Loading...";
       }

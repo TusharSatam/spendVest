@@ -18,7 +18,7 @@ export const authApi = createApi({
   reducerPath: "authApi",
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.NEXT_PUBLIC_BASE_URL + "auth/",
-    credentials: "same-origin",
+    credentials: "include",
     mode: "cors",
     prepareHeaders: (headers, { getState }) => {
       const bearertoken = (getState() as RootState).authSlice.jwt;

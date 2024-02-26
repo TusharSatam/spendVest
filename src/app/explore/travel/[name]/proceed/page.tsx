@@ -68,10 +68,10 @@ const Page: FC<pageProps> = ({ params, searchParams }) => {
         goalName: `Travel to ${params.name}`,
         targetAmount: totalAmount,
         investmentFrequency: investmentFrequency,
-        ratio: ratio,
+        ratio: ratio.toLocaleString(),
         totalAmountInvested: partToBeInvestedFrequently, // first amount invested = partToBeInvestedFrequently
         brandName: brandName,
-        user: user._id as string,
+        userId: user._id as string,
         duration: duration
       })
         .then((res) => {
