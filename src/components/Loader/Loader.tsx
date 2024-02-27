@@ -5,36 +5,32 @@ interface LoaderProps {
 }
 
 const loaderSvg = (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 300 150"
-    style={{
-      position: "absolute",
-      top: "50%",
-      left: "50%",
-      transform: "translate(-50%, -50%)",
-      zIndex: 10,
-    }}
-  >
-    <path
-      fill="none"
-      stroke="#FFFF00"
-      stroke-width="15"
-      stroke-linecap="round"
-      stroke-dasharray="300 385"
-      stroke-dashoffset="0"
-      d="M275 75c0 31-27 50-50 50-58 0-92-100-150-100-28 0-50 22-50 50s23 50 50 50c58 0 92-100 150-100 24 0 50 19 50 50Z"
-    >
-      <animate
-        attributeName="stroke-dashoffset"
-        calcMode="spline"
-        dur="2"
-        values="685;-685"
-        keySplines="0 0 1 1"
-        repeatCount="indefinite"
-      ></animate>
-    </path>
-  </svg>
+	<svg className="ip" viewBox="0 0 256 128" width="256px" height="128px" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="grad1" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#5ebd3e" />
+      <stop offset="33%" stop-color="#ffb900" />
+      <stop offset="67%" stop-color="#f78200" />
+      <stop offset="100%" stop-color="#e23838" />
+    </linearGradient>
+    <linearGradient id="grad2" x1="1" y1="0" x2="0" y2="0">
+      <stop offset="0%" stop-color="#e23838" />
+      <stop offset="33%" stop-color="#973999" />
+      <stop offset="67%" stop-color="#009cdf" />
+      <stop offset="100%" stop-color="#5ebd3e" />
+    </linearGradient>
+  </defs>
+  <g fill="none" stroke-linecap="round" stroke-width="16">
+    <g className="ip__track" stroke="#ddd">
+      <path d="M8,64s0-56,60-56,60,112,120,112,60-56,60-56"/>
+      <path d="M248,64s0-56-60-56-60,112-120,112S8,64,8,64"/>
+    </g>
+    <g stroke-dasharray="180 656">
+      <path className="ip__worm1" stroke="url(#grad1)" stroke-dashoffset="0" d="M8,64s0-56,60-56,60,112,120,112,60-56,60-56"/>
+      <path className="ip__worm2" stroke="url(#grad2)" stroke-dashoffset="358" d="M248,64s0-56-60-56-60,112-120,112S8,64,8,64"/>
+    </g>
+  </g>
+</svg>
 );
 
 const Loader: FC<LoaderProps> = ({ small }) => {

@@ -38,9 +38,9 @@ export const goalApi = createApi({
         body: data,
       }),
     }),
-    getMyGoals: builder.query<{data:GoalI[]}, void>({
-      query: () => ({
-        url: "",
+    getMyGoals: builder.query<{data:GoalI[]},string>({
+      query: (user_id) => ({
+        url: `${user_id}`,
         method: "GET",
       }),
     }),

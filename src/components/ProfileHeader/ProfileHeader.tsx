@@ -13,9 +13,10 @@ import {
   DrawerTrigger,
   Drawer,
 } from "@/components/ui/drawer";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "@/store/slices/authSlice";
 import { useRouter } from "next/navigation";
+import { RootState } from "@/store/store";
 
 const OpenProfile = () => {
   const dispatch = useDispatch();
@@ -73,6 +74,7 @@ const OpenProfile = () => {
 interface ProfileHeaderProps {}
 
 const ProfileHeader: FC<ProfileHeaderProps> = ({}) => {
+  const user = useSelector((state:RootState)=>state.authSlice)
   return (
     <header className="flex justify-center items-center w-full p-2 sticky top-0 z-50">
       <section className="flex justify-between items-center bg-slate-900 w-full rounded-full p-1">
@@ -81,7 +83,7 @@ const ProfileHeader: FC<ProfileHeaderProps> = ({}) => {
 
           <div className="flex flex-col pr-4 justify-between">
             <p className="text-[10px]">Hi,</p>
-            <p>Jeff Bezos</p>
+            <p>{user?.name??"User"}</p>
           </div>
         </div>
         <div className="flex justify-center items-center gap-2">

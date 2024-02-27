@@ -31,6 +31,8 @@ import {
 import Link from "next/link";
 import { GoalI, useLazyGetMyGoalsQuery } from "@/store/api/goalApi";
 import Loader from "@/components/Loader/Loader";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 
 const Page = () => {
   const cardData = [
@@ -62,16 +64,20 @@ const Page = () => {
     { title: "Persistent Tortoise", Link: "/" },
   ];
 
+  const user = useSelector((state: RootState) => state.authSlice);
+
   const [myGoalsAPI, myGoalsData] = useLazyGetMyGoalsQuery();
 
   useEffect(() => {
-    myGoalsAPI();
-  }, []);
+    if (typeof user._id === "string" && user._id.length > 10) {
+      myGoalsAPI(user._id);
+    }
+  }, [myGoalsAPI, user._id]);
 
   console.log({ myGoalsData });
 
-  function formatNumber(num: number) {
-    const roundedNumber = num.toFixed(2);
+  function formatNumber(num: number,toFixed:number=2) {
+    const roundedNumber = num.toFixed(toFixed);
     return roundedNumber.endsWith(".00")
       ? roundedNumber.slice(0, -3)
       : roundedNumber;
@@ -81,16 +87,18 @@ const Page = () => {
     // Calculate the sum of all ratios
     if (myGoalsData.data?.data) {
       const sumOfRatios = myGoalsData.data?.data.reduce(
-        (sum:number, item:GoalI) => sum + Number(item.ratio),
+        (sum: number, item: GoalI) => sum + Number(item.ratio),
         0
       );
 
       // Calculate the average
-      const averageRatio = sumOfRatios / myGoalsData.data?.data?.length;
-      const avgNum = isNaN(averageRatio)===true?0:averageRatio
-      return formatNumber(avgNum*100);
-    } else {
+      const averageRatio = sumOfRatios;
+      const avgNum = isNaN(averageRatio) === true ? 0 : averageRatio;
+      return formatNumber(avgNum,4);
+    } else if (myGoalsData.isLoading) {
       return "Loading...";
+    } else {
+      return "No Data";
     }
   };
 
@@ -146,12 +154,15 @@ const Page = () => {
           ))}
         </div>
       </div>
-      <h2 className="mb-3 text-xl font-semibold">Your Current Ratio: {<RatioNum/>}</h2>
+      <h2 className="mb-3 text-xl font-semibold">
+        Your Current Ratio: {<RatioNum />}
+      </h2>
       <div className="GoalsStatus text-left w-full overflow-hidden">
         <h2 className="mb-3 text-xl font-semibold">Goals Status</h2>
         <div className="goalsPercentages grid gap-2 my-3 grid-cols-3">
-          {Array.isArray(myGoalsData?.data?.data) ? (
-            myGoalsData.data.data.map((item: GoalI, i) => (
+          {Array.isArray(myGoalsData?.data?.data) &&
+          myGoalsData?.data?.data.length > 0 ? (
+            myGoalsData.data.data.map((item: GoalI, i: number) => (
               <Popover key={i}>
                 <PopoverTrigger className="border w-full aspect-square rounded-full">
                   {formatNumber(
@@ -170,9 +181,13 @@ const Page = () => {
                 </PopoverContent>
               </Popover>
             ))
-          ) : (
+          ) : myGoalsData.isLoading ? (
             <div className="w-90vw aspect-square relative">
               <Loader small />
+            </div>
+          ) : (
+            <div className="w-[calc(100vw-20px)] h-full flex justify-center items-center">
+              <p>No Goals Available</p>
             </div>
           )}
         </div>

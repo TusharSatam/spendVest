@@ -148,7 +148,7 @@ const Page: FC<pageProps> = ({ params, searchParams }) => {
             </div>
             <div className="col-span-1 text-right ">
               <p>
-                {Math.round((totalAmount / duration) * (investmentFrequency===0?1:investmentFrequency))}
+                {Math.round((totalAmount / duration) * (investmentFrequency===0?duration:investmentFrequency))}
                 /
                 {investmentFrequency === 0
                   ? "Onetime"

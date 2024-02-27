@@ -31,8 +31,8 @@ const imagesArray = [
   { ImageTitle: "News", ImageName: [ETMarket, moneycontrol, Finshot] },
   { ImageTitle: "Investments", ImageName: [ZeroDha, Dhan, Upstox] },
   { ImageTitle: "Bill Payments", ImageName: [PhonePe, paytm, Gpay] },
-  { ImageTitle: "Bill Payments", ImageName: [cleartax, VakilSearch, Tax2Win] },
-  { ImageTitle: "Bill Payments", ImageName: [PolicyBazaar, ditto, Beshak] },
+  { ImageTitle: "Tax Planning", ImageName: [cleartax, VakilSearch, Tax2Win] },
+  { ImageTitle: "Insurance", ImageName: [PolicyBazaar, ditto, Beshak] },
 ];
 
 const Page = () => {

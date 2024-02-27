@@ -89,14 +89,14 @@ const Page: FC<pageProps> = ({ params }) => {
       <Separator className="mb-3" />
       <section className="w-full px-3 flex flex-col justify-center items-start text-start gap-2 mb-2">
         <p>Duration</p>
-        <p className="text-sm">{duration[0]} days</p>
+        <p className="text-sm">{duration[0]} Months</p>
         <div className="w-full flex justify-center items-center">
           <Slider
             onValueChange={(e) => {
               setDuration(e);
             }}
             value={duration}
-            max={365}
+            max={100}
             step={1}
             className="w-[98%]"
           />
@@ -135,7 +135,7 @@ const Page: FC<pageProps> = ({ params }) => {
         <Link
           href={`/explore/travel/${params.name}/proceed?brand=${
             brands.find((obj) => obj.selected === true)?.name ?? ""
-          }&duration=${duration[0]}&investmentFrequency=${
+          }&duration=${duration[0]*30}&investmentFrequency=${
             investmentFrequency.find((obj) => obj.selected === true)?.value ??
             0
           }&totalAmount=${totalAmount}`}
