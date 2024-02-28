@@ -7,16 +7,24 @@ import {
   PaperPlaneIcon,
   AvatarIcon,
 } from "@radix-ui/react-icons";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 
 interface NavbarProps {
-  isFocused:boolean
+  isFocused: boolean;
 }
 
-const Navbar: FC<NavbarProps> = ({isFocused}) => {
+const Navbar: FC<NavbarProps> = ({ isFocused }) => {
+  const screenValidation = useSelector(
+    (state: RootState) => state.screenValidation
+  );
   return (
     <>
       <nav
-        style={{ clipPath: "ellipse(60% 100% at 50% 100%)",display:isFocused?"none":"flex" }}
+        style={{
+          clipPath: "ellipse(60% 100% at 50% 100%)",
+          display: isFocused ? "none" : "flex",
+        }}
         className="fixed bottom-0 h-20 left-0 right-0 z-50 flex justify-around items-center backdrop-blur-lg bg-[rgba(156,163,175,0.2)] text-xs"
       >
         <Link
@@ -44,7 +52,11 @@ const Navbar: FC<NavbarProps> = ({isFocused}) => {
         </Link>
         <Link
           style={{ transformOrigin: "center bottom", rotate: "5deg" }}
-          href={"/journey"}
+          href={`${
+            screenValidation.isProfileCompleted && screenValidation?.isGoalSet
+              ? "/journey"
+              : "/journey-validation"
+          }`}
           className="flex flex-col gap-1 justify-center items-center mb-1.5"
         >
           <PaperPlaneIcon height={20} width={20} />

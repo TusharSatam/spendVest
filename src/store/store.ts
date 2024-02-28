@@ -4,11 +4,12 @@ import { authApi } from "./api/authApi";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { userApi } from "./api/userApi";
 import { goalApi } from "./api/goalApi";
+import screenValidation from "./slices/screenValidation";
 
 export const store = configureStore({
   reducer: {
     authSlice: authSlice,
-
+    screenValidation:screenValidation,
     [authApi.reducerPath]:authApi.reducer,
     [userApi.reducerPath]:userApi.reducer,
     [goalApi.reducerPath]:goalApi.reducer,

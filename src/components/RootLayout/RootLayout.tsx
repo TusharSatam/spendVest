@@ -10,6 +10,12 @@ import { useLazyCheckUserQuery } from "@/store/api/userApi";
 import { AuthState, login, logout } from "@/store/slices/authSlice";
 import { ISOStringFormat } from "date-fns";
 import { Toaster } from "../ui/toaster";
+import {
+  update_IsProfileCompleted,
+  update_ProfileAndGoal,
+  update_isGoalSet,
+} from "@/store/slices/screenValidation";
+import { useLazyGetMyGoalsQuery } from "@/store/api/goalApi";
 
 export default function RootLayout({
   children,
@@ -63,6 +69,19 @@ export default function RootLayout({
 
   const dispatch = useDispatch();
   const [userAPIFunc, userData] = useLazyCheckUserQuery();
+  const [myGoalsAPI, myGoalsData] = useLazyGetMyGoalsQuery();
+
+  useEffect(() => {
+    if (typeof userId === "string" && userId.length > 10) {
+      myGoalsAPI(userId);
+    }
+  }, [myGoalsAPI, userId]);
+  useEffect(() => {
+    if ({ myGoalsData }?.myGoalsData?.data?.data?.length) {
+      dispatch(update_isGoalSet(true));
+    }
+  }, [myGoalsData]);
+
 
   const authVerifier = useCallback(async () => {
     setLoading(true);
@@ -88,6 +107,18 @@ export default function RootLayout({
               const month = (date.getMonth() + 1).toString().padStart(2, "0");
               const year = date.getFullYear();
               const formattedDate = `${year}-${month}-${day}`;
+              if (
+                userData.hasOwnProperty("DOB") &&
+                userData.hasOwnProperty("panNumber") &&
+                userData.hasOwnProperty("salary")
+              ) {
+                dispatch(
+                  update_ProfileAndGoal({
+                    isProfileCompleted: true,
+                    isGoalSet: false,
+                  })
+                );
+              }
               dispatch(
                 login({
                   ...userData,
@@ -149,9 +180,11 @@ export default function RootLayout({
   const [isFocused, setIsFocused] = useState(false);
 
   useEffect(() => {
-    const handleFocusChange = (event:FocusEvent) => {
-      const focusedElementType = (event.target as HTMLElement).tagName.toLowerCase();
-      if (focusedElementType === 'input' || focusedElementType === 'textarea') {
+    const handleFocusChange = (event: FocusEvent) => {
+      const focusedElementType = (
+        event.target as HTMLElement
+      ).tagName.toLowerCase();
+      if (focusedElementType === "input" || focusedElementType === "textarea") {
         setIsFocused(true);
       }
     };
@@ -161,13 +194,13 @@ export default function RootLayout({
     };
 
     // Add event listeners to document to capture focus and blur events on all input and textarea elements
-    document.addEventListener('focus', handleFocusChange, true);
-    document.addEventListener('blur', handleBlurChange, true);
+    document.addEventListener("focus", handleFocusChange, true);
+    document.addEventListener("blur", handleBlurChange, true);
 
     // Cleanup function to remove event listeners when component unmounts
     return () => {
-      document.removeEventListener('focus', handleFocusChange, true);
-      document.removeEventListener('blur', handleBlurChange, true);
+      document.removeEventListener("focus", handleFocusChange, true);
+      document.removeEventListener("blur", handleBlurChange, true);
     };
   }, []);
 
@@ -182,10 +215,10 @@ export default function RootLayout({
           </p>
         </div>
       ) : (
-       loading===false && children
+        loading === false && children
       )}
-      {isAuth && !isOnBoarding && <Navbar isFocused={isFocused}/>}
-      <Toaster/>
+      {isAuth && !isOnBoarding && <Navbar isFocused={isFocused} />}
+      <Toaster />
     </div>
   );
 }

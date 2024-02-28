@@ -31,8 +31,9 @@ import {
 import Link from "next/link";
 import { GoalI, useLazyGetMyGoalsQuery } from "@/store/api/goalApi";
 import Loader from "@/components/Loader/Loader";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
+import { update_isGoalSet } from "@/store/slices/screenValidation";
 
 const Page = () => {
   const cardData = [
@@ -65,7 +66,7 @@ const Page = () => {
   ];
 
   const user = useSelector((state: RootState) => state.authSlice);
-
+  const dispatch = useDispatch();
   const [myGoalsAPI, myGoalsData] = useLazyGetMyGoalsQuery();
 
   useEffect(() => {
@@ -73,10 +74,15 @@ const Page = () => {
       myGoalsAPI(user._id);
     }
   }, [myGoalsAPI, user._id]);
+  useEffect(() => {
+    if ({ myGoalsData }?.myGoalsData?.data?.data?.length) {
+      dispatch(update_isGoalSet(true));
+    }
+  }, [myGoalsData]);
 
   console.log({ myGoalsData });
 
-  function formatNumber(num: number,toFixed:number=2) {
+  function formatNumber(num: number, toFixed: number = 2) {
     const roundedNumber = num.toFixed(toFixed);
     return roundedNumber.endsWith(".00")
       ? roundedNumber.slice(0, -3)
@@ -94,7 +100,7 @@ const Page = () => {
       // Calculate the average
       const averageRatio = sumOfRatios;
       const avgNum = isNaN(averageRatio) === true ? 0 : averageRatio;
-      return formatNumber(avgNum,4);
+      return formatNumber(avgNum, 4);
     } else if (myGoalsData.isLoading) {
       return "Loading...";
     } else {

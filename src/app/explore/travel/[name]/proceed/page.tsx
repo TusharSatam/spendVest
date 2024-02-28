@@ -5,11 +5,12 @@ import { Button } from "@/components/ui/button";
 import { ToastAction } from "@/components/ui/toast";
 import { useToast } from "@/components/ui/use-toast";
 import { useCreateGoalMutation } from "@/store/api/goalApi";
+import { update_isGoalSet } from "@/store/slices/screenValidation";
 import { RootState } from "@/store/store";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FC } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 interface pageProps {
   params: { name: string };
   searchParams: {
@@ -27,7 +28,7 @@ const Page: FC<pageProps> = ({ params, searchParams }) => {
   const investmentFrequency = Number(searchParams?.investmentFrequency);
   const totalAmount = Number(searchParams?.totalAmount);
   const { toast } = useToast();
-
+  const dispatch = useDispatch();
   const [createGoalFunc, createGoalData] = useCreateGoalMutation();
 
   const submitGoalCreation = async () => {
@@ -51,7 +52,10 @@ const Page: FC<pageProps> = ({ params, searchParams }) => {
       const monthlyInvestment = (totalAmount / duration) * 30;
 
       const ratio = monthlyInvestment / user.salary;
-      const partToBeInvestedFrequently = Math.round((totalAmount / duration) * (investmentFrequency===0?1:investmentFrequency));
+      const partToBeInvestedFrequently = Math.round(
+        (totalAmount / duration) *
+          (investmentFrequency === 0 ? 1 : investmentFrequency)
+      );
       // const partToBeInvestedFrequently = Math.round(
       //   totalAmount / investmentFrequency === Infinity
       //     ? totalAmount
@@ -72,11 +76,12 @@ const Page: FC<pageProps> = ({ params, searchParams }) => {
         totalAmountInvested: partToBeInvestedFrequently, // first amount invested = partToBeInvestedFrequently
         brandName: brandName,
         userId: user._id as string,
-        duration: duration
+        duration: duration,
       })
         .then((res) => {
           if ("data" in res) {
             if ("success" in res.data) {
+              dispatch(update_isGoalSet(true));
               toast({
                 variant: res.data.success === true ? "default" : "destructive",
                 title: `Goal creation ${
@@ -148,7 +153,10 @@ const Page: FC<pageProps> = ({ params, searchParams }) => {
             </div>
             <div className="col-span-1 text-right ">
               <p>
-                {Math.round((totalAmount / duration) * (investmentFrequency===0?duration:investmentFrequency))}
+                {Math.round(
+                  (totalAmount / duration) *
+                    (investmentFrequency === 0 ? duration : investmentFrequency)
+                )}
                 /
                 {investmentFrequency === 0
                   ? "Onetime"
