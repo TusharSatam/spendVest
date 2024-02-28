@@ -96,7 +96,7 @@ export default function HomeHero() {
                     className="w-full h-full relative z-[2] grid place-items-center"
                   >
                     <p className="text-xl text-gray-100 font-medium">
-                      Jwellery
+                      Jewellery
                     </p>
                   </div>
                 </div>

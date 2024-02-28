@@ -75,7 +75,7 @@ const Page = () => {
     }
   }, [myGoalsAPI, user._id]);
   useEffect(() => {
-    if ({ myGoalsData }?.myGoalsData?.data?.data?.length>0) {
+    if ({ myGoalsData }?.myGoalsData?.data?.data?.length as number>0) {
       dispatch(update_isGoalSet(true));
     }
   }, [myGoalsData]);

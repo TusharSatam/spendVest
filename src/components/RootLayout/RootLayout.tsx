@@ -77,7 +77,7 @@ export default function RootLayout({
     }
   }, [myGoalsAPI, userId]);
   useEffect(() => {
-    if ({ myGoalsData }?.myGoalsData?.data?.data?.length>0) {
+    if ({ myGoalsData }?.myGoalsData?.data?.data?.length as number>0) {
       dispatch(update_isGoalSet(true));
     }
   }, [myGoalsData]);
@@ -108,9 +108,9 @@ export default function RootLayout({
               const year = date.getFullYear();
               const formattedDate = `${year}-${month}-${day}`;
               if (
-                userData.hasOwnProperty("DOB") &&
-                userData.hasOwnProperty("panNumber") &&
-                userData.hasOwnProperty("salary")
+                userData.DOB &&
+                userData.panNumber &&
+                userData.salary
               ) {
                 dispatch(
                   update_ProfileAndGoal({
