@@ -77,7 +77,7 @@ export default function RootLayout({
     }
   }, [myGoalsAPI, userId]);
   useEffect(() => {
-    if ({ myGoalsData }?.myGoalsData?.data?.data?.length) {
+    if ({ myGoalsData }?.myGoalsData?.data?.data?.length>0) {
       dispatch(update_isGoalSet(true));
     }
   }, [myGoalsData]);
